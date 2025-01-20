@@ -32,13 +32,6 @@ const Footer = ({ id }) => {
     setShowQR((prev) => !prev);
   };
 
-  const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
     <>
       <RedLine />
@@ -90,9 +83,15 @@ const Footer = ({ id }) => {
         <Section>
           <SectionTitle>Contatos</SectionTitle>
           <LinkList>
-            <span onClick={() => scrollToSection("inicio")}>INÍCIO</span>
-            <span onClick={() => scrollToSection("sobre-nos")}>QUEM SOMOS</span>
-            <span onClick={() => scrollToSection("servicos")}>SERVIÇOS</span>
+            <Link href="/#inicio">
+              <span>INÍCIO</span>
+            </Link>
+            <Link href="/#sobre-nos">
+              <span>QUEM SOMOS</span>
+            </Link>
+            <Link href="/#servicos">
+              <span>SERVIÇOS</span>
+            </Link>
             <Link href="/imoveis">
               <span>IMÓVEIS</span>
             </Link>

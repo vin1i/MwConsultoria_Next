@@ -6,7 +6,7 @@ const About = () => {
   return (
     <div>
       <Container>
-        <Image src="/images/MarisaWebberFotoNova.jpg" alt="Imagem" />
+        <img src="/images/MarisaWebberFotoNova.jpg" alt="Imagem" />
         <Text>
           <h1>QUEM SOMOS</h1>
           <h3>Transformando Sonhos em Realidade</h3>

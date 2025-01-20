@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import Image from "next/image";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation, Autoplay } from "swiper"; // Removido Pagination
+import { Navigation, Autoplay } from "swiper"; 
 import styled from "styled-components";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import "swiper/css";

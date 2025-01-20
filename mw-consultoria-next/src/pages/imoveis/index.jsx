@@ -1,203 +1,131 @@
-import { useEffect, useState, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "@/services/firebase/firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, where, orderBy, limit, startAfter } from "firebase/firestore";
 import Card from "@/components/Card";
 import Filters from "@/components/Filters";
 import Pagination from "@/components/Pagination";
 import { Container, Sidebar, Content, CardsContainer } from "./styles";
 
-// Filtro de opções (similar ao do componente antigo)
-const filterOptions = [
-  {
-    id: "tipo",
-    label: "Tipo de Negócio",
-    key: "tipo",
-    options: [
-      { value: "", label: "Todos" },
-      { value: "venda", label: "Venda" },
-      { value: "locacao", label: "Locação" },
-      { value: "vendaLocacao", label: "Venda e Locação" },
-    ],
-  },
-  {
-    id: "quartos",
-    label: "Quartos",
-    key: "quartos",
-    options: [
-      { value: "", label: "Qualquer" },
-      { value: "1", label: "1" },
-      { value: "2", label: "2" },
-      { value: "3", label: "3" },
-      { value: "4", label: "4" },
-      { value: "5+", label: "5+" },
-    ],
-  },
-  {
-    id: "banheiros",
-    label: "Banheiros",
-    key: "banheiros",
-    options: [
-      { value: "", label: "Qualquer" },
-      { value: "1", label: "1" },
-      { value: "2", label: "2" },
-      { value: "3", label: "3" },
-      { value: "4", label: "4" },
-      { value: "5+", label: "5+" },
-    ],
-  },
-  {
-    id: "vagas",
-    label: "Vagas",
-    key: "vagas",
-    options: [
-      { value: "", label: "Qualquer" },
-      { value: "1", label: "1" },
-      { value: "2", label: "2" },
-      { value: "3", label: "3" },
-      { value: "4", label: "4" },
-      { value: "5+", label: "5+" },
-    ],
-  },
-  {
-    id: "precoMinimo",
-    label: "Preço Mínimo",
-    key: "precoMinimo",
-    options: [
-      { value: "", label: "Qualquer" },
-      { value: "100000", label: "R$100.000" },
-      { value: "200000", label: "R$200.000" },
-      { value: "500000", label: "R$500.000" },
-    ],
-  },
-  {
-    id: "precoMaximo",
-    label: "Preço Máximo",
-    key: "precoMaximo",
-    options: [
-      { value: "", label: "Qualquer" },
-      { value: "500000", label: "R$500.000" },
-      { value: "1000000", label: "R$1.000.000" },
-      { value: "2000000", label: "R$2.000.000" },
-    ],
-  },
-];
 export default function Imoveis() {
   const [imoveis, setImoveis] = useState([]);
   const [filters, setFilters] = useState({
-    tipo: "",
-    quartos: "",
-    banheiros: "",
-    vagas: "",
-    precoMinimo: "",
-    precoMaximo: "",
+    precoMinimo: 0,
+    precoMaximo: 20000000,
+    tipo: null,
+    quartos: null,
+    suites: null,
+    banheiros: null,
+    vagas: null,
+    ordenacaoVenda: "",
   });
   const [currentPage, setCurrentPage] = useState(1);
+  const [lastVisible, setLastVisible] = useState(null); // Track the last document for pagination
   const [totalPages, setTotalPages] = useState(1);
 
-  const ITEMS_PER_PAGE = 5;
+  const ITEMS_PER_PAGE = 1; // Número de imóveis por página
 
   useEffect(() => {
-    async function fetchImoveis() {
+    const fetchImoveis = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "properties"));
+        console.log("Buscando imóveis com os filtros:", filters);
+
+        let queryRef = collection(db, "properties");
+
+        // Aplicando filtros
+        if (filters.tipo) {
+          console.log("Aplicando filtro de tipo:", filters.tipo);
+          queryRef = query(queryRef, where("tipo", "==", filters.tipo));
+        }
+
+        if (filters.precoMinimo || filters.precoMaximo) {
+          if (filters.precoMinimo) {
+            queryRef = query(queryRef, where("valorVenda", ">=", filters.precoMinimo));
+          }
+          if (filters.precoMaximo) {
+            queryRef = query(queryRef, where("valorVenda", "<=", filters.precoMaximo));
+          }
+          console.log("Aplicando filtro de preço entre:", filters.precoMinimo, "e", filters.precoMaximo);
+        }
+
+        if (filters.quartos > 0) {
+          console.log("Aplicando filtro de quartos maior ou igual a:", filters.quartos);
+          queryRef = query(queryRef, where("quartos", ">=", filters.quartos));
+        }
+        if (filters.suites > 0) {
+          console.log("Aplicando filtro de suítes maior ou igual a:", filters.suites);
+          queryRef = query(queryRef, where("suites", ">=", filters.suites));
+        }
+        if (filters.banheiros > 0) {
+          console.log("Aplicando filtro de banheiros maior ou igual a:", filters.banheiros);
+          queryRef = query(queryRef, where("banheiros", ">=", filters.banheiros));
+        }
+        if (filters.vagas > 0) {
+          console.log("Aplicando filtro de vagas maior ou igual a:", filters.vagas);
+          queryRef = query(queryRef, where("vagas", ">=", filters.vagas));
+        }
+
+        if (filters.ordenacaoVenda) {
+          console.log("Aplicando filtro de ordenação por valor de venda:", filters.ordenacaoVenda);
+          queryRef = query(queryRef, orderBy("valorVenda", filters.ordenacaoVenda));
+        }
+
+        // Paginação
+        queryRef = query(queryRef, limit(ITEMS_PER_PAGE));
+
+        if (lastVisible) {
+          console.log("Paginação: Iniciando após o documento:", lastVisible.id);
+          queryRef = query(queryRef, startAfter(lastVisible)); // Paginação após o último item
+        }
+
+        const querySnapshot = await getDocs(queryRef);
+
+        console.log("Consulta executada. Número de documentos retornados:", querySnapshot.size);
+
         const listaImoveis = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
+
+        console.log("Imóveis retornados:", listaImoveis);
+
         setImoveis(listaImoveis);
-        setTotalPages(Math.ceil(listaImoveis.length / ITEMS_PER_PAGE));
+        setTotalPages(Math.ceil(querySnapshot.size / ITEMS_PER_PAGE));
+        setLastVisible(querySnapshot.docs[querySnapshot.docs.length - 1]); // Atualiza o último documento para o startAfter
       } catch (error) {
         console.error("Erro ao buscar imóveis:", error);
       }
-    }
+    };
 
     fetchImoveis();
-  }, []);
+  }, [filters, currentPage]);
 
   const handleFilterChange = (newFilters) => {
-    setFilters(newFilters);
-  };
-
-  const filteredImoveis = useMemo(() => {
-    return imoveis.filter((property) => {
-      if (filters.tipo && property.tipo !== filters.tipo) {
-        return false;
-      }
-      if (filters.quartos && property.quartos !== filters.quartos) {
-        return false;
-      }
-      if (filters.banheiros && property.banheiros !== filters.banheiros) {
-        return false;
-      }
-      if (filters.vagas && property.vagas !== filters.vagas) {
-        return false;
-      }
-      if (filters.precoMinimo && property.valorVenda < filters.precoMinimo) {
-        return false;
-      }
-      if (filters.precoMaximo && property.valorVenda > filters.precoMaximo) {
-        return false;
-      }
-      return true;
-    });
-  }, [imoveis, filters]);
-
-  const sortedProperties = useMemo(() => {
-    let sorted = [...filteredImoveis];
-
-    // Ordenação por venda
-    if (filters.ordenacaoVenda) {
-      sorted = sorted.sort((a, b) => {
-        const valorVendaA = a.valorVenda || 0;
-        const valorVendaB = b.valorVenda || 0;
-        return filters.ordenacaoVenda === "asc" ? valorVendaA - valorVendaB : valorVendaB - valorVendaA;
-      });
-    }
-
-    // Ordenação por locação
-    if (filters.ordenacaoLocacao) {
-      sorted = sorted.sort((a, b) => {
-        const valorLocacaoA = a.valorLocacao || 0;
-        const valorLocacaoB = b.valorLocacao || 0;
-        return filters.ordenacaoLocacao === "asc" ? valorLocacaoA - valorLocacaoB : valorLocacaoB - valorLocacaoA;
-      });
-    }
-
-    // Ordenação por condomínio
-    if (filters.ordenacaoOutros) {
-      sorted = sorted.sort((a, b) => {
-        const vlCondominioA = a.vlCondominio || 0;
-        const vlCondominioB = b.vlCondominio || 0;
-        return filters.ordenacaoOutros === "asc" ? vlCondominioA - vlCondominioB : vlCondominioB - vlCondominioA;
-      });
-    }
-
-    return sorted;
-  }, [filteredImoveis, filters]);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
+    console.log("Filtros alterados:", newFilters);
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      ...newFilters,
+    }));
+    setCurrentPage(1); // Reseta para a primeira página ao aplicar novos filtros
   };
 
   return (
     <Container>
       <Sidebar>
-        <Filters filters={filters} onFilterChange={handleFilterChange} filterOptions={filterOptions} />
+        <Filters filters={filters} onFilterChange={handleFilterChange} />
       </Sidebar>
 
       <Content>
         <CardsContainer>
-          {sortedProperties
-            .slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
-            .map((imovel) => (
-              <Card key={imovel.id} {...imovel} />
-            ))}
+          {imoveis.map((imovel) => (
+            <Card key={imovel.id} {...imovel} />
+          ))}
         </CardsContainer>
 
+        {/* Paginação */}
         <Pagination
           currentPage={currentPage}
           totalPages={totalPages}
-          onPageChange={handlePageChange}
+          onPageChange={(page) => setCurrentPage(page)} // Atualiza a página ao clicar
         />
       </Content>
     </Container>

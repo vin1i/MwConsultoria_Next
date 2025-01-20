@@ -9,11 +9,13 @@ import {
   StyledSelect,
   SliderWrapper,
 } from "./styles";
+import filtersOptions from "@/data/FiltersOptions";
 
-const Filters = ({ filters, onFilterChange, filterOptions }) => {
+const Filters = ({ filters, onFilterChange }) => {
   const [priceRange, setPriceRange] = useState([0, 20000000]);
   const [tempPriceRange, setTempPriceRange] = useState([0, 20000000]);
 
+  // Resetando os filtros para os valores padrões ao montar o componente
   useEffect(() => {
     setPriceRange([0, 20000000]);
     setTempPriceRange([0, 20000000]);
@@ -52,10 +54,11 @@ const Filters = ({ filters, onFilterChange, filterOptions }) => {
   };
 
   const applyInputChange = (index) => {
-    const updatedRange = [...tempPriceRange];
+    const updatedRange = [...priceRange];
+
     if (updatedRange[0] === "" || updatedRange[1] === "") {
-      updatedRange[0] = priceRange[0];
-      updatedRange[1] = priceRange[1];
+      updatedRange[0] = 0;
+      updatedRange[1] = 20000000;
     }
 
     updatedRange[0] = Math.max(0, Math.min(20000000, updatedRange[0]));
@@ -67,7 +70,6 @@ const Filters = ({ filters, onFilterChange, filterOptions }) => {
     }
 
     setPriceRange(updatedRange);
-    setTempPriceRange(updatedRange);
     onFilterChange({
       ...filters,
       precoMinimo: updatedRange[0],
@@ -75,11 +77,13 @@ const Filters = ({ filters, onFilterChange, filterOptions }) => {
     });
   };
 
+  // Função para lidar com as mudanças de ordenação
   const handleSortChange = (e, type) => {
+    const sortValue = e.target.value;
     const key = `ordenacao${type}`;
     onFilterChange({
       ...filters,
-      [key]: e.target.value,
+      [key]: sortValue,
     });
   };
 
@@ -93,10 +97,7 @@ const Filters = ({ filters, onFilterChange, filterOptions }) => {
             type="text"
             value={formatToReais(tempPriceRange[0])}
             onChange={(e) =>
-              handleTempInputChange(
-                0,
-                e.target.value.replace(/[^\d]/g, "")
-              )
+              handleTempInputChange(0, e.target.value.replace(/[^\d]/g, ""))
             }
             onBlur={() => applyInputChange(0)}
             onKeyDown={(e) => e.key === "Enter" && applyInputChange(0)}
@@ -106,10 +107,7 @@ const Filters = ({ filters, onFilterChange, filterOptions }) => {
             type="text"
             value={formatToReais(tempPriceRange[1])}
             onChange={(e) =>
-              handleTempInputChange(
-                1,
-                e.target.value.replace(/[^\d]/g, "")
-              )
+              handleTempInputChange(1, e.target.value.replace(/[^\d]/g, ""))
             }
             onBlur={() => applyInputChange(1)}
             onKeyDown={(e) => e.key === "Enter" && applyInputChange(1)}
@@ -137,7 +135,7 @@ const Filters = ({ filters, onFilterChange, filterOptions }) => {
         </SliderWrapper>
       </FieldContainer>
 
-      {/* Filtro de Ordenação */}
+      {/* Filtro de Ordenação por Venda */}
       <FieldContainer>
         <Label>Ordenar por Venda</Label>
         <StyledSelect
@@ -177,15 +175,13 @@ const Filters = ({ filters, onFilterChange, filterOptions }) => {
       </FieldContainer>
 
       {/* Outros filtros */}
-      {filterOptions.map(({ id, label, key, options }) => (
+      {filtersOptions.map(({ id, label, key, options }) => (
         <FieldContainer key={id}>
           <Label htmlFor={id}>{label}</Label>
           <StyledSelect
             id={id}
             value={filters[key] || ""}
-            onChange={(e) =>
-              onFilterChange({ ...filters, [key]: e.target.value })
-            }
+            onChange={(e) => onFilterChange({ ...filters, [key]: e.target.value })}
           >
             {options.map(({ value, label }) => (
               <option key={value} value={value}>
@@ -200,4 +196,3 @@ const Filters = ({ filters, onFilterChange, filterOptions }) => {
 };
 
 export default Filters;
-

@@ -24,7 +24,7 @@ export default function Home() {
         <meta property="og:type" content="website" />
       </Head>
 
-      <Header />
+     
 
       <section id="inicio">
         <Banner />
@@ -38,7 +38,7 @@ export default function Home() {
         <Servicos />
       </section>
 
-      <Footer />
+      
     </>
   );
 }

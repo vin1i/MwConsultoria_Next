@@ -4,30 +4,29 @@ import { collection, getDocs } from "firebase/firestore";
 import RealEstateCard from "@/components/Card/RealEstateCard";
 import Pagination from "@/components/Pagination";
 import Filters from "@/components/Filters";
+import { useLoading } from "@/context/LoadingContext";
+import { getImoveis } from "@/services/firebase/firestoreService";
+import { normalizeValues } from "@/utils/utils";
 import filtersOptions from "@/data/FiltersOptions";
 
-export default function Imoveis() {
+const cloudinaryCloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+const cloudinaryBaseUrl = `https://res.cloudinary.com/${cloudinaryCloudName}`;
+const ImoveisPage = () => {
   const [imoveis, setImoveis] = useState([]);
   const [filters, setFilters] = useState({
-    precoMinimo: 0,
-    precoMaximo: 20000000,
-    ordenacaoVenda: "",
-    ordenacaoLocacao: "",
-    ordenacaoOutros: "",
-    tipoNegocio: "",
-    quartosMinimo: 0,
-    quartosMaximo: 10,
-    suitesMinimo: 0,
-    suitesMaximo: 10,
-    banheirosMinimo: 0,
-    banheirosMaximo: 10,
-    vagasMinimo: 0,
-    vagasMaximo: 10,
+    tipo: "",
+    quartos: "",
+    banheiros: "",
+    vagas: "",
+    precoMinimo: 100000,
+    precoMaximo: 1000000,
   });
 
+  const { setIsLoading, isLoading } = useLoading();
   const [currentPage, setCurrentPage] = useState(1);
-  const ITEMS_PER_PAGE = 6;
+  const itemsPerPage = 6;
 
+  
   useEffect(() => {
     async function fetchImoveis() {
       try {
@@ -44,140 +43,188 @@ export default function Imoveis() {
     }
 
     fetchImoveis();
-  }, []);
+  }, [setIsLoading]);
 
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-  };
 
-  const filteredImoveis = useMemo(() => {
-    let filtered = [...imoveis];
-  
-    // Aplicando os filtros individuais
-    filtersOptions.forEach((option) => {
-      const filterValue = filters[option.key];
-  
-      if (filterValue && option.key) {
-        filtered = filtered.filter((property) => {
-          if (Array.isArray(filterValue)) {
-            return filterValue.includes(property[option.key]);
-          }
-  
-          // Para filtros numéricos como quartos, suítes, banheiros e vagas
-          if (
-            ["quartos", "suites", "banheiros", "vagas"].includes(option.key)
-          ) {
-            if (filterValue === "5+") {
-              return property[option.key] >= 5; // Verifica se é maior ou igual a 5
-            }
-  
-            if (filterValue !== "") {
-              return property[option.key] === parseInt(filterValue, 10); // Garante comparação numérica
-            }
-  
-            return true; // Se o filtro não estiver aplicado, não filtra
-          }
-  
-          return property[option.key] === filterValue; // Para outros tipos de filtros
-        });
+  const filteredProperties = useMemo(() => {
+    const sortedProperties = imoveis.filter((property) => {
+      // Tipo de negócio
+      if (filters.tipo) {
+        if (
+          filters.tipo === "venda" &&
+          property.tipo !== "venda" &&
+          property.tipo !== "vendaLocacao"
+        ) {
+          return false;
+        }
+        if (
+          filters.tipo === "locacao" &&
+          property.tipo !== "locacao" &&
+          property.tipo !== "vendaLocacao"
+        ) {
+          return false;
+        }
+        if (
+          filters.tipo !== "venda" &&
+          filters.tipo !== "locacao" &&
+          filters.tipo !== property.tipo
+        ) {
+          return false;
+        }
       }
+
+      // Filtro de preço
+      if (
+        (filters.precoMinimo && property.valorVenda < filters.precoMinimo) ||
+        (filters.precoMaximo && property.valorVenda > filters.precoMaximo)
+      ) {
+        return false;
+      }
+
+      // Filtro de quartos
+      if (filters.quartos && filters.quartos !== "Qualquer") {
+        const quartosFilter = Number(filters.quartos.replace("+", ""));
+        const quartosProperty = Number(property.quartos);
+        if (
+          filters.quartos.includes("+")
+            ? quartosProperty < quartosFilter
+            : quartosProperty !== quartosFilter
+        ) {
+          return false;
+        }
+      }
+
+      // Filtro de suítes
+      if (filters.suites && filters.suites !== "Qualquer") {
+        const suitesFilter = Number(filters.suites.replace("+", ""));
+        const suitesProperty = Number(property.suites);
+        if (
+          filters.suites.includes("+")
+            ? suitesProperty < suitesFilter
+            : suitesProperty !== suitesFilter
+        ) {
+          return false;
+        }
+      }
+
+      // Filtro de banheiros
+      if (filters.banheiros && filters.banheiros !== "Qualquer") {
+        const banheirosFilter = Number(filters.banheiros.replace("+", ""));
+        const banheirosProperty = Number(property.banheiros);
+        if (
+          filters.banheiros.includes("+")
+            ? banheirosProperty < banheirosFilter
+            : banheirosProperty !== banheirosFilter
+        ) {
+          return false;
+        }
+      }
+
+      // Filtro de vagas
+      if (filters.vagas && filters.banheiros !== "Qualquer") {
+        const vagasFilter = Number(filters.vagas.replace("+", ""));
+        const vagasProperty = Number(property.vagas);
+        if (
+          filters.vagas.includes("+")
+            ? vagasProperty < vagasFilter
+            : vagasProperty !== vagasFilter
+        ) {
+          return false;
+        }
+      }
+
+      return true;
     });
-  
-    // Filtro de preço
-    filtered = filtered.filter(
-      (property) =>
-        property.valorVenda >= filters.precoMinimo &&
-        property.valorVenda <= filters.precoMaximo
-    );
-  
-    // Filtro de tipo de negócio (venda, locação, ambos)
-    if (filters.tipoNegocio && filters.tipoNegocio !== "vendaLocacao") {
-      filtered = filtered.filter(
-        (property) => property.tipoNegocio === filters.tipoNegocio
-      );
-    } else if (filters.tipoNegocio === "vendaLocacao") {
-      filtered = filtered.filter(
-        (property) =>
-          property.tipoNegocio === "venda" || property.tipoNegocio === "locacao"
-      );
-    }
-  
-    // Filtros de ordenação
-    if (filters.ordenacaoVenda) {
-      filtered.sort((a, b) =>
-        filters.ordenacaoVenda === "asc"
-          ? a.valorVenda - b.valorVenda
-          : b.valorVenda - a.valorVenda
-      );
-    } else if (filters.ordenacaoLocacao) {
-      filtered.sort((a, b) =>
-        filters.ordenacaoLocacao === "asc"
-          ? a.valorLocacao - b.valorLocacao
-          : b.valorLocacao - a.valorLocacao
-      );
-    } else if (filters.ordenacaoOutros) {
-      filtered.sort((a, b) =>
-        filters.ordenacaoOutros === "asc"
-          ? a.vlCondominio - b.vlCondominio
-          : b.vlCondominio - a.vlCondominio
-      );
-    }
-  
-    return filtered;
-  }, [imoveis, filters, filtersOptions]);
-  
 
-  const indexOfLastProperty = currentPage * ITEMS_PER_PAGE;
-  const indexOfFirstProperty = indexOfLastProperty - ITEMS_PER_PAGE;
-  const currentImoveis = filteredImoveis.slice(
-    indexOfFirstProperty,
-    indexOfLastProperty
-  );
+    // Ordenação por filtros
+    if (filters.ordenacaoVenda === "asc") {
+      return sortedProperties.sort((a, b) => a.valorVenda - b.valorVenda);
+    }
+    if (filters.ordenacaoVenda === "desc") {
+      return sortedProperties.sort((a, b) => b.valorVenda - a.valorVenda);
+    }
+    if (filters.ordenacaoLocacao === "asc") {
+      return sortedProperties.sort((a, b) => a.valorLocacao - b.valorLocacao);
+    }
+    if (filters.ordenacaoLocacao === "desc") {
+      return sortedProperties.sort((a, b) => b.valorLocacao - a.valorLocacao);
+    }
+    if (filters.ordenacaoOutros === "asc") {
+      return sortedProperties.sort((a, b) => a.vlCondominio - b.vlCondominio);
+    }
+    if (filters.ordenacaoOutros === "desc") {
+      return sortedProperties.sort((a, b) => b.vlCondominio - a.vlCondominio);
+    }
 
-  const totalPages = Math.ceil(filteredImoveis.length / ITEMS_PER_PAGE);
+    return sortedProperties; // Retorna sem ordenação se nenhum filtro for aplicado
+  }, [imoveis, filters]);
+
+  const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
+
+  const currentProperties = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    return filteredProperties.slice(startIndex, startIndex + itemsPerPage);
+  }, [filteredProperties, currentPage, itemsPerPage]);
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 min-h-screen">
       <div className="col-span-1 bg-gray-100 p-4 rounded-lg shadow-md mb-4 md:mb-0">
-        <Filters filters={filters} onFilterChange={setFilters} />
+        <Filters filters={filters} onFilterChange={setFilters} filtersOptions={filtersOptions} />
       </div>
 
       <div className="col-span-3 flex flex-col gap-4">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-primary">Imóveis em Destaque</h1>
-          <p className="mt-2 text-gray-600">Encontre o imóvel perfeito para você</p>
-        </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-          {currentImoveis.map((imovel) => (
-            <RealEstateCard
-              key={imovel.id}
-              id={imovel.id}
-              titulo={imovel.titulo}
-              endereco={imovel.endereco}
-              valorVenda={imovel.valorVenda ?? 0} // Handle potential null values
-              vlCondominio={imovel.vlCondominio ?? 0}
-              vlIptu={imovel.vlIptu ?? 0}
-              imagens={imovel.imagens ?? []}
-              videos={imovel.videos ?? []}
-              quartos={imovel.quartos ?? 0}
-              banheiros={imovel.banheiros ?? 0}
-              vagas={imovel.vagas ?? 0}
-              metrosQuadrados={imovel.metrosQuadrados ?? 0}
-              suites={imovel.suites ?? 0}
-              descricao={imovel.descricao ?? ""}
-              disponibilidade={imovel.disponibilidade ?? "unknown"}
-            />
-          ))}
+          {imoveis.length === 0 ? (
+            <p>Nenhum imóvel encontrado com os filtros aplicados.</p>
+          ) : currentProperties.length > 0 ? (
+            currentProperties.map((imovel) => (
+              <RealEstateCard
+                key={imovel.id}
+                id={imovel.id}
+                titulo={imovel.titulo}
+                tipo={imovel.tipo}
+                endereco={imovel.endereco}
+                valorVenda={imovel.valorVenda}
+                valorLocacao={imovel.valorLocacao}
+                vlCondominio={imovel.vlCondominio}
+                vlIptu={imovel.vlIptu}
+                quartos={Number(imovel.quartos)}
+                banheiros={Number(imovel.banheiros)}
+                vagas={Number(imovel.vagas)}
+                metrosQuadrados={Number(imovel.metrosQuadrados)}
+                suites={Number(imovel.suites)}
+                cloudinaryBaseUrl={cloudinaryBaseUrl}
+                imagens={
+                  imovel.imagens?.length > 0
+                    ? imovel.imagens.map((img) =>
+                        img.startsWith("http")
+                          ? img
+                          : `${cloudinaryBaseUrl}/image/upload/${img}`
+                      )
+                    : [
+                        "https://via.placeholder.com/300x200?text=Imagem+Indisponível",
+                      ]
+                }
+                descricao={imovel.descricao}
+                disponibilidade={imovel.disponibilidade}
+              />
+            ))
+          ) : (
+            <p>Nenhum imóvel encontrado com os filtros aplicados.</p>
+          )}
+          {totalPages > 1 && (
+         
+              <Pagination
+                totalPages={totalPages}
+                currentPage={currentPage}
+                onPageChange={(page) => setCurrentPage(page)}
+              />
+           
+          )}
         </div>
-
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={handlePageChange}
-        />
       </div>
     </div>
   );
-}
+};
 
+export default ImoveisPage;

@@ -7,6 +7,10 @@ import {
   deleteDoc,
   doc,
   getDoc,
+  query,
+  orderBy,
+  startAfter,
+  limit,
 } from "firebase/firestore";
 
 const propertyCollection = collection(db, "properties");
@@ -31,10 +35,16 @@ export const addImovel = async (imovelData) => {
   }
 };
 
-export const getImoveis = async () => {
+export const getImoveis = async (lastVisibleDoc = null, pageSize = 10) => {
   try {
-    const querySnapshot = await getDocs(propertyCollection);
-    return querySnapshot.docs.map((doc) => ({
+    let propertyQuery = query(propertyCollection, orderBy("nm_titulo"), limit(pageSize));
+    
+    if (lastVisibleDoc) {
+      propertyQuery = query(propertyQuery, startAfter(lastVisibleDoc));
+    }
+
+    const querySnapshot = await getDocs(propertyQuery);
+    const properties = querySnapshot.docs.map((doc) => ({
       id: doc.id,
       tipo: doc.data().tp_imovel || 'Desconhecido',
       endereco: doc.data().ds_localizacao || 'Não informado',
@@ -52,6 +62,9 @@ export const getImoveis = async () => {
       imagens: doc.data().imagens || [],
       videos: doc.data().videos || [],
     }));
+
+    const lastVisible = querySnapshot.docs[querySnapshot.docs.length - 1];
+    return { properties, lastVisible };
   } catch (error) {
     console.error("Erro ao buscar imóveis:", error);
     throw error;

@@ -29,22 +29,26 @@ const ImoveisPage = () => {
   
   useEffect(() => {
     async function fetchImoveis() {
+      setIsLoading(true); // Definir como verdadeiro enquanto carrega os imóveis
+  
       try {
         const querySnapshot = await getDocs(collection(db, "properties"));
         const listaImoveis = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),
         }));
-
+  
         setImoveis(listaImoveis);
       } catch (error) {
         console.error("Erro ao buscar imóveis:", error);
+      } finally {
+        setIsLoading(false); // Definir como falso quando os dados forem carregados
       }
     }
-
+  
     fetchImoveis();
-  }, [setIsLoading]);
-
+  }, [filters, setIsLoading]); // Adicionando `filters` para recarregar sempre que os filtros mudarem
+  
 
   const filteredProperties = useMemo(() => {
     const sortedProperties = imoveis.filter((property) => {
@@ -166,6 +170,11 @@ const ImoveisPage = () => {
     return filteredProperties.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredProperties, currentPage, itemsPerPage]);
 
+  useEffect(() => {
+    setIsLoading(true); // Carregar os dados novamente ao mudar de página
+    setIsLoading(false); // Finaliza carregamento após um pequeno delay, ou ajuste conforme necessário
+  }, [currentPage, setIsLoading]);
+  
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 min-h-screen">
       <div className="col-span-1 bg-gray-100 p-4 rounded-lg shadow-md mb-4 md:mb-0">
@@ -174,9 +183,9 @@ const ImoveisPage = () => {
 
       <div className="col-span-3 flex flex-col gap-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
-          {imoveis.length === 0 ? (
+          {currentProperties.length === 0 ? (
             <p>Nenhum imóvel encontrado com os filtros aplicados.</p>
-          ) : currentProperties.length > 0 ? (
+          ) : (
             currentProperties.map((imovel) => (
               <RealEstateCard
                 key={imovel.id}
@@ -201,27 +210,24 @@ const ImoveisPage = () => {
                           ? img
                           : `${cloudinaryBaseUrl}/image/upload/${img}`
                       )
-                    : [
-                        "https://via.placeholder.com/300x200?text=Imagem+Indisponível",
-                      ]
+                    : ["https://via.placeholder.com/300x200?text=Imagem+Indisponível"]
                 }
                 descricao={imovel.descricao}
                 disponibilidade={imovel.disponibilidade}
               />
             ))
-          ) : (
-            <p>Nenhum imóvel encontrado com os filtros aplicados.</p>
-          )}
-          {totalPages > 1 && (
-         
-              <Pagination
-                totalPages={totalPages}
-                currentPage={currentPage}
-                onPageChange={(page) => setCurrentPage(page)}
-              />
-           
           )}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center w-full py-4 mt-8 sm:py-2 sm:mt-4 xs:py-1 xs:text-sm">
+            <Pagination
+              totalPages={totalPages}
+              currentPage={currentPage}
+              onPageChange={(page) => setCurrentPage(page)}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

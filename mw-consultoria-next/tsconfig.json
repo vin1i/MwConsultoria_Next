@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/components/Card/index.jsx"
-  ],
+, "src/pages/imoveis/index.jsx"  ],
   "exclude": [
     "node_modules"
   ]

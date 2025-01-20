@@ -170,10 +170,6 @@ const ImoveisPage = () => {
     return filteredProperties.slice(startIndex, startIndex + itemsPerPage);
   }, [filteredProperties, currentPage, itemsPerPage]);
 
-  useEffect(() => {
-    setIsLoading(true); // Carregar os dados novamente ao mudar de página
-    setIsLoading(false); // Finaliza carregamento após um pequeno delay, ou ajuste conforme necessário
-  }, [currentPage, setIsLoading]);
   
   return (
     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 min-h-screen">

@@ -24,7 +24,7 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#222222",
+          DEFAULT: "#9C192B",
           foreground: "#FFFFFF",
         },
         secondary: {
@@ -36,7 +36,7 @@ const config = {
           foreground: "#222222",
         },
         badge: {
-          available: "#4CAF50",
+          available: "#9C192B",
           pending: "#FFA726",
           sold: "#EF5350",
         },

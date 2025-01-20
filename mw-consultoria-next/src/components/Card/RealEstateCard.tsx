@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { MapPin, Bed, Bath, Car, Maximize2, Star } from "lucide-react";
 import PropertyImageCarousel from "@/components/ui/PropertyImageCarousel";
 import { useRouter } from "next/router";
+import { useLoading } from "@/context/LoadingContext";
 
 interface RealEstateCardProps {
   id: string;
@@ -73,10 +74,16 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
     }
   };
 
-  const handleClick = React.useCallback(() => {
-    router.push(`/imoveis/${id}`);
-  }, [router, id]);
+  const { setIsLoading } = useLoading();
 
+   const handleClick = () => {
+    setIsLoading(true); // Ativa o carregamento ao clicar
+    router.push(`/imoveis/${id}`).then(() => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    });
+  }; 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

@@ -1,12 +1,13 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { MapPin, Bed, Bath, Car, Maximize2 } from "lucide-react";
+import { MapPin, Bed, Bath, Car, Maximize2, Star } from "lucide-react";
 import PropertyImageCarousel from "@/components/ui/PropertyImageCarousel";
-import { useRouter } from "next/router"; // Importa o hook useRouter
+import { useRouter } from "next/router";
 
 interface RealEstateCardProps {
   id: string;
   endereco: string;
+  tipo: string;
   valorVenda: number;
   valorLocacao: number;
   vlCondominio: number;
@@ -20,7 +21,8 @@ interface RealEstateCardProps {
   metrosQuadrados: number;
   suites: number;
   descricao: string;
-  disponibilidade: "available" | "pending" | "sold";
+  cloudinaryBaseUrl: string;
+  disponibilidade: "Disponível" | "Reservado" | "Indisponível";
 }
 
 const RealEstateCard: React.FC<RealEstateCardProps> = ({
@@ -41,8 +43,7 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
   descricao,
   disponibilidade,
 }) => {
-  const router = useRouter(); // Use o hook useRouter
-
+  const router = useRouter();
   const cloudinaryBaseUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/`;
 
   const media = [
@@ -59,21 +60,21 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
     }).format(value);
   };
 
-  const statusColors: Record<string, string> = {
-    available: "bg-badge-available",
-    pending: "bg-badge-pending",
-    sold: "bg-badge-sold",
+  const getStatusColor = (status: string): string => {
+    switch (status) {
+      case "Disponível":
+        return "bg-emerald-500";
+      case "Reservado":
+        return "bg-gray-500";
+      case "Indisponível":
+        return "bg-red-500";
+      default:
+        return "bg-gray-500";
+    }
   };
 
-  const statusText: Record<string, string> = {
-    available: "Disponível",
-    pending: "Pendente",
-    sold: "Vendido",
-  };
-
-  // Função para navegar para a página de detalhes do imóvel
   const handleClick = React.useCallback(() => {
-    router.push(`/imoveis/${id}`); // Navega para a página de detalhes usando o ID do imóvel
+    router.push(`/imoveis/${id}`);
   }, [router, id]);
 
   return (
@@ -86,35 +87,38 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
       <div className="relative">
         <PropertyImageCarousel media={media} />
         <span
-          className={`absolute right-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${statusColors[disponibilidade]}`}
+          className={`absolute left-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${getStatusColor(disponibilidade)}`}
         >
-          {statusText[disponibilidade]}
+          {disponibilidade}
         </span>
       </div>
 
       <div className="space-y-4 p-6 rounded-lg bg-white flex flex-col min-h-[400px]">
         <div className="flex flex-col flex-grow">
           <h3 className="text-xl font-semibold text-primary">{titulo}</h3>
-          <div className="mt-2 flex items-center text-sm text-gray-600">
-            <MapPin className="mr-2 h-4 w-4" />
+          <div className="mt-2 flex items-start text-sm text-gray-600">
+            <MapPin className="mr-2 h-4 w-4 text-[#9C192B]" />
             {endereco}
           </div>
-
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
             <div className="flex items-center gap-2">
-              <Maximize2 className="h-4 w-4 text-gray-600" />
+              <Maximize2 className="h-4 w-4 text-gray-600 text-[#9C192B]" />
               <span>{metrosQuadrados} m²</span>
             </div>
             <div className="flex items-center gap-2">
-              <Bed className="h-4 w-4 text-gray-600" />
+              <Bed className="h-4 w-4 text-gray-600 text-[#9C192B]" />
               <span>{quartos} Quartos</span>
             </div>
             <div className="flex items-center gap-2">
-              <Bath className="h-4 w-4 text-gray-600" />
+              <Star className="h-4 w-4 text-gray-600 text-[#9C192B]" />
+              <span>{suites} Suítes</span>
+            </div>
+            <div className="flex items-center gap-2 ">
+              <Bath className="h-4 w-4 text-gray-600 text-[#9C192B]" />
               <span>{banheiros} Banheiros</span>
             </div>
             <div className="flex items-center gap-2">
-              <Car className="h-4 w-4 text-gray-600" />
+              <Car className="h-4 w-4 text-gray-600 text-[#9C192B]" />
               <span>{vagas} Vagas</span>
             </div>
           </div>
@@ -137,7 +141,6 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
           </div>
         </div>
 
-        {/* Botão para redirecionar para a página de detalhes */}
         <button
           onClick={handleClick}
           className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
@@ -150,4 +153,3 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
 };
 
 export default RealEstateCard;
-

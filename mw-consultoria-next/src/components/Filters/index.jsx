@@ -76,16 +76,14 @@ const Filters = ({ filters, onFilterChange }) => {
       precoMaximo: updatedRange[1],
     });
   };
-
-  // Função para lidar com as mudanças de ordenação
-  const handleSortChange = (e, type) => {
-    const sortValue = e.target.value;
-    const key = `ordenacao${type}`;
-    onFilterChange({
-      ...filters,
-      [key]: sortValue,
-    });
-  };
+const handleSortChange = (e, type) => {
+  const sortValue = e.target.value;
+  const key = `ordenacao${type}`;
+  onFilterChange({
+    ...filters,
+    [key]: sortValue === "" ? "" : sortValue,
+  });
+};
 
   return (
     <FiltersContainer>
@@ -135,18 +133,19 @@ const Filters = ({ filters, onFilterChange }) => {
         </SliderWrapper>
       </FieldContainer>
 
-      {/* Filtro de Ordenação por Venda */}
-      <FieldContainer>
-        <Label>Ordenar por Venda</Label>
-        <StyledSelect
-          value={filters.ordenacaoVenda || ""}
-          onChange={(e) => handleSortChange(e, "Venda")}
-        >
-          <option value="">Selecione</option>
-          <option value="asc">Menor para Maior</option>
-          <option value="desc">Maior para Menor</option>
-        </StyledSelect>
-      </FieldContainer>
+
+<FieldContainer>
+  <Label>Ordenar por Venda</Label>
+  <StyledSelect
+    value={filters.ordenacaoVenda || ""}
+    onChange={(e) => handleSortChange(e, "Venda")}
+  >
+    <option value="">Selecione</option>
+    <option value="asc">Menor para Maior</option>
+    <option value="desc">Maior para Menor</option>
+  </StyledSelect>
+</FieldContainer>
+
 
       {/* Filtro de Ordenação por Locação */}
       <FieldContainer>

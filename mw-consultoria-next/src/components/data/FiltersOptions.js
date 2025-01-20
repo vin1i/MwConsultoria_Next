@@ -1,5 +1,3 @@
-// filterOptions.js
-
 const filtersOptions = [
     {
       id: "tipo",

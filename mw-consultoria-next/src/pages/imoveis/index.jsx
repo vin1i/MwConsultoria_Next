@@ -42,10 +42,13 @@ const ImoveisPage = () => {
       } catch (error) {
         console.error("Erro ao buscar imóveis:", error);
       } finally {
-        setIsLoading(false); // Definir como falso quando os dados forem carregados
+        // Simulando o tempo de carregamento maior (ex: 3 segundos)
+        setTimeout(() => {
+          setIsLoading(false); // Definir como falso quando os dados forem carregados
+        }, 1000); // 3000ms = 3 segundos
       }
     }
-  
+
     fetchImoveis();
   }, [filters, setIsLoading]); // Adicionando `filters` para recarregar sempre que os filtros mudarem
   
@@ -138,9 +141,12 @@ const ImoveisPage = () => {
       }
 
       return true;
-    });
+    })
 
-    // Ordenação por filtros
+      
+    .sort((a, b) => a.valorVenda - b.valorVenda);
+
+      // Ordenação por filtros
     if (filters.ordenacaoVenda === "asc") {
       return sortedProperties.sort((a, b) => a.valorVenda - b.valorVenda);
     }

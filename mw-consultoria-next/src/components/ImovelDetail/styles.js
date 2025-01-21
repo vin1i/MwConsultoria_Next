@@ -95,7 +95,7 @@ export const Features = styled.div`
   }
 
   @media (max-width: 768px) {
-    font-size: 13px;
+    font-size: 12px;
     gap: 8px;
   }
 `;

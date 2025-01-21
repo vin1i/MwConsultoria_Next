@@ -1,0 +1,50 @@
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.carousel-slide img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.slick-arrow {
+    z-index: 2;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.slick-prev {
+    left: 10px;
+    color: #000;
+}
+
+.slick-next {
+    right: 10px;
+    color: #000;
+}
+
+.custom-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    transition: background-color 0.3s ease;
+}
+
+.custom-dot.slick-active {
+    background-color: #000;
+}
+
+.slick-dots {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    max-width: 150px;
+    margin: 0 auto;
+}

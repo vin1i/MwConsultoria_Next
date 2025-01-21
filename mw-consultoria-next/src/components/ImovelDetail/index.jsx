@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
+import { MapPin, Bed, Bath, Car, Maximize2, Star } from "lucide-react";
 import { useRouter } from "next/router";
 import {
   Wrapper,
@@ -22,8 +23,8 @@ import {
   FaWhatsapp,
 } from "react-icons/fa";
 import Carousel from "../Carousel";
-import ShareIcon from "./shareIcon";
 import { getImovelById } from "@/services/firebase/firestoreService";
+import { ShareButton } from "../ShareButton/ShareButton.tsx";
 const ImobiDetails = ({ initialProperty }) => {
   const router = useRouter();
   const { id } = router.query;
@@ -127,7 +128,7 @@ const ImobiDetails = ({ initialProperty }) => {
     "Confira este imóvel disponível na MW Consultoria Imobiliária.";
   const metaImage =
     images[0]?.src || "https://via.placeholder.com/300x200?text=Sem+Imagem";
-  const metaUrl = `https://www.mwconsultoriaimobiliaria.com.br/imoveis/${id}`;
+  const metaUrl = `https://88e7-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/imoveis/${id}`;
 
   return (
     <Wrapper>
@@ -148,19 +149,19 @@ const ImobiDetails = ({ initialProperty }) => {
         <Address>{property.endereco || "Endereço não informado"}</Address>
         <Features>
           <p>
-            <FaRulerCombined /> {property.metrosQuadrados || 0} m²
+            <Maximize2/> {property.metrosQuadrados || 0} m²
           </p>
           <p>
-            <FaBed /> {property.quartos || 0} quartos
+            <Bed /> {property.quartos || 0} quartos
           </p>
           <p>
-            <FaDoorClosed /> {property.suites || 0} suítes
+            <Star /> {property.suites || 0} suítes
           </p>
           <p>
-            <FaBath /> {property.banheiros || 0} banheiros
+            <Bath /> {property.banheiros || 0} banheiros
           </p>
           <p>
-            <FaCar /> {property.vagas || 0} vagas
+            <Car /> {property.vagas || 0} vagas
           </p>
         </Features>
         <Price>
@@ -222,13 +223,14 @@ const ImobiDetails = ({ initialProperty }) => {
           {property.descricao || "Descrição não disponível."}
         </Description>
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
+         style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between", 
+          width: "100%"  
+        }}
         >
-          <WhatsAppButton
+          <WhatsAppButton 
             href={`https://api.whatsapp.com/send?phone=5511973738808&text=Ol%C3%A1,%20gostaria%20de%20saber%20mais%20sobre%20o%20im%C3%B3vel%20${
               property.titulo || property.tipo
             }%20em%20${property.endereco}.`}
@@ -237,8 +239,15 @@ const ImobiDetails = ({ initialProperty }) => {
           >
             Fale conosco!
             <FaWhatsapp />
-          </WhatsAppButton>
-          <ShareIcon link={metaUrl} />
+          </WhatsAppButton >
+          <ShareButton 
+          id={property.id}
+         url={ metaUrl}
+         title={metaTitle}
+         description={metaDescription}
+         images={metaImage}
+           />
+         
         </div>
       </ContentContainer>
     </Wrapper>

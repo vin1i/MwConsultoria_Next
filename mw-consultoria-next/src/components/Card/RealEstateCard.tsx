@@ -4,6 +4,7 @@ import { MapPin, Bed, Bath, Car, Maximize2, Star } from "lucide-react";
 import PropertyImageCarousel from "@/components/ui/PropertyImageCarousel";
 import { useRouter } from "next/router";
 import { useLoading } from "@/context/LoadingContext";
+import { ShareButtonCard } from "../ShareButton/ShareButtonCard";
 
 interface RealEstateCardProps {
   id: string;
@@ -148,12 +149,20 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
           </div>
         </div>
 
-        <button
-          onClick={handleClick}
-          className="w-full rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-        >
-          Ver mais
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={handleClick}
+            className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
+          >
+            Ver mais
+          </button>
+          <ShareButtonCard
+            id={id}
+            title={titulo}
+            description={descricao}
+            images={imagens}
+          />
+        </div>
       </div>
     </motion.div>
   );

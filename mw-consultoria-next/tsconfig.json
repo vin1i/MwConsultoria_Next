@@ -29,7 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     "src/components/Card/index.jsx"
-, "src/pages/imoveis/index.jsx"  ],
+, "src/pages/imoveis/index.jsx", "src/hooks/useToast.js", "src/components/ShareButton/ShareButton.jsx"  ],
   "exclude": [
     "node_modules"
   ]

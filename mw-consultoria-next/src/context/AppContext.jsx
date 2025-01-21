@@ -126,4 +126,4 @@ export const AppContextProvider = ({ children }) => {
   );
 };
 
-export const useAppContext = () => useContext(AppContext);
+export const useAuth = () => useContext(AppContext);

@@ -11,7 +11,7 @@ const CloudinaryImage = ({
   height = 500,
   alt = "Imagem não disponível",
 }) => {
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
   // Verificação se o Cloudinary Cloud Name está configurado
   if (!cloudName) {

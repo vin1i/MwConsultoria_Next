@@ -1,6 +1,6 @@
 export const uploadImagesToCloudinary = async (files) => {
-  const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET;
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
   if (!uploadPreset || !cloudName) {
     console.error("Cloudinary upload preset ou cloud name não configurados");

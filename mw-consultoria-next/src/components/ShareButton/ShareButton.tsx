@@ -20,7 +20,7 @@ interface ShareButtonProps {
     images: string[];
   }
 export const ShareButton = ({ id, title, description, images }:ShareButtonProps) => {
-  const frontendUrl = `https://88e7-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/imoveis/${id}`;
+  const frontendUrl = `https://cfc8-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/imoveis/${id}`;
   const image = images && images.length > 0 ? images[0] : 'https://defaultimage.com/default.jpg';
 
   const socialButtons = [
@@ -31,6 +31,7 @@ export const ShareButton = ({ id, title, description, images }:ShareButtonProps)
       props: {
         url: frontendUrl,
         title: `${title} - ${description}...\n`,
+        image: image,
       },
       bgHover: 'hover:bg-[#25D366]',
     },
@@ -41,7 +42,7 @@ export const ShareButton = ({ id, title, description, images }:ShareButtonProps)
       props: {
         url: frontendUrl,
         quote: `${title} - ${description}...`,
-        image: image,
+      
       },
       bgHover: 'hover:bg-[#1877F2]',
     },

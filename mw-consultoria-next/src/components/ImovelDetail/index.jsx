@@ -87,7 +87,7 @@ const ImobiDetails = ({ initialProperty }) => {
     ? property.imagens.map((img) => {
         const imageUrl = img.startsWith("http")
           ? img
-          : `https://res.cloudinary.com/${process.env.REACT_APP_CLOUDINARY_CLOUD_NAME}/image/upload/${img}`;
+          : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${img}`;
         return {
           src: imageUrl,
           type: "image",
@@ -128,7 +128,7 @@ const ImobiDetails = ({ initialProperty }) => {
     "Confira este imóvel disponível na MW Consultoria Imobiliária.";
   const metaImage =
     images[0]?.src || "https://via.placeholder.com/300x200?text=Sem+Imagem";
-  const metaUrl = `https://88e7-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/imoveis/${id}`;
+  const metaUrl = `https://cfc8-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/imoveis/${id}`;
 
   return (
     <Wrapper>

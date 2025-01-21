@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { getImoveis, deleteImovel } from "../services/propertyService";
+import { getImoveis, deleteImovel } from "../../../services/propertyService";
 import { useLoading } from "../../../context/LoadingContext";
 import styled from "styled-components";
 import Swal from "sweetalert2";
@@ -10,7 +10,7 @@ const generateCloudinaryURL = (imageId) => {
     return imageId;
   }
 
-  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
   return `https://res.cloudinary.com/${cloudName}/image/upload/${imageId}`;
 };
 const PropertyList = ({ onEdit, onDelete }) => {

@@ -6,7 +6,7 @@ import {
   addProperty,
   updateImovel,
   deleteImovel,
-} from "../services/propertyService";
+} from "../../../services/propertyService";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";

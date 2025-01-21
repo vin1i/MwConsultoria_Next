@@ -19,101 +19,103 @@ interface ShareButtonProps {
     description: string;
     images: string[];
   }
-export const ShareButtonCard = ({ id, title, description, images }:ShareButtonProps) => {
-  const frontendUrl = `https://88e7-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/imoveis/${id}`;
-  const image = images && images.length > 0 ? images[0] : 'https://defaultimage.com/default.jpg';
-
-  const socialButtons = [
-    {
-      Component: WhatsappShareButton,
-      Icon: WhatsappIcon,
-      name: 'WhatsApp',
-      props: {
-        url: frontendUrl,
-        title: `${title} - ${description}...\n`,
+  export const ShareButtonCard = ({ id, title, description, images }: ShareButtonProps) => {
+    const frontendUrl = `https://cfc8-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/imoveis/${id}`;
+    const image = images && images.length > 0 ? images[0] : 'https://defaultimage.com/default.jpg';
+  
+    // Limita a descrição a um número fixo de caracteres
+    const truncatedDescription = description.length > 100
+      ? `${description.substring(0, 100)}...` // Limita a 100 caracteres
+      : description;
+  
+    const socialButtons = [
+      {
+        Component: WhatsappShareButton,
+        Icon: WhatsappIcon,
+        name: 'WhatsApp',
+        props: {
+          url: frontendUrl,
+          title: `${title} - ${truncatedDescription}`,
+          image: image,
+        },
+        bgHover: 'hover:bg-[#25D366]',
       },
-      bgHover: 'hover:bg-[#25D366]',
-    },
-    {
-      Component: FacebookShareButton,
-      Icon: FacebookIcon,
-      name: 'Facebook',
-      props: {
-        url: frontendUrl,
-        quote: `${title} - ${description}...`,
-        image: image,
+      {
+        Component: FacebookShareButton,
+        Icon: FacebookIcon,
+        name: 'Facebook',
+        props: {
+          url: frontendUrl,
+          quote: `${title} - ${truncatedDescription}`,
+          image: image,
+        },
+        bgHover: 'hover:bg-[#1877F2]',
       },
-      bgHover: 'hover:bg-[#1877F2]',
-    },
-    {
-      Component: TwitterShareButton,
-      Icon: TwitterIcon,
-      name: 'Twitter',
-      props: {
-        url: frontendUrl,
-        title: title,
+      {
+        Component: TwitterShareButton,
+        Icon: TwitterIcon,
+        name: 'Twitter',
+        props: {
+          url: frontendUrl,
+          title: `${title} - ${truncatedDescription}`,
+        },
+        bgHover: 'hover:bg-[#1DA1F2]',
       },
-      bgHover: 'hover:bg-[#1DA1F2]',
-    },
-    {
-      Component: LinkedinShareButton,
-      Icon: LinkedinIcon,
-      name: 'LinkedIn',
-      props: {
-        url: frontendUrl,
-        title: title,
-        summary: description,
-        source: frontendUrl,
+      {
+        Component: LinkedinShareButton,
+        Icon: LinkedinIcon,
+        name: 'LinkedIn',
+        props: {
+          url: frontendUrl,
+          title: title,
+          summary: truncatedDescription,
+          source: frontendUrl,
+        },
+        bgHover: 'hover:bg-[#0A66C2]',
       },
-      bgHover: 'hover:bg-[#0A66C2]',
-    },
-  ];
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleClose = () => {
+    ];
+  
+    const [isOpen, setIsOpen] = useState(false);
+  
+    const handleClose = () => {
       setIsOpen(false);
-  }
-  return (
-    <Dialog>
-    <DialogTrigger asChild>
-      <Button
-        variant="outline"
-        className="flex items-center gap-2 hover:bg-[#9C192B] hover:text-white transition-colors duration-200 rounded-[25px]"
-      >
-        <Share2 className="w-4 h-4" />
-     
-      </Button>
-    </DialogTrigger>
-
-    <DialogContent isOpen={isOpen} onClose={handleClose} className="sm:max-w-md">
-      <DialogHeader>
-        <DialogTitle className="text-xl font-semibold text-center">
-          Compartilhar
-        </DialogTitle>
-      </DialogHeader>
-      
-      <div className="grid grid-cols-2 gap-6 p-6">
-        {socialButtons.map(({ Component, Icon, name, props, bgHover }) => (
-          <div key={name} className="flex flex-col items-center">
-            <Component
-              {...props}
-              className={`rounded-full p-2 transition-all duration-300 
-                transform hover:scale-110 hover:shadow-lg ${bgHover} 
-                group cursor-pointer `}
-            >
-              <Icon 
-                size={48} 
-                round 
-                className="group-hover:text-white transition-colors duration-300"
-              />
-            </Component>
-            <span className="mt-2 text-sm font-medium text-gray-600">
-              {name}
-            </span>
+    };
+  
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button
+            variant="outline"
+            className="flex items-center gap-2 hover:bg-[#9C192B] hover:text-white transition-colors duration-200 rounded-[25px]"
+          >
+            <Share2 className="w-4 h-4" />
+          </Button>
+        </DialogTrigger>
+  
+        <DialogContent isOpen={isOpen} onClose={handleClose} className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-semibold text-center">Compartilhar</DialogTitle>
+          </DialogHeader>
+  
+          <div className="grid grid-cols-2 gap-6 p-6">
+            {socialButtons.map(({ Component, Icon, name, props, bgHover }) => (
+              <div key={name} className="flex flex-col items-center">
+                <Component
+                  {...props}
+                  className={`rounded-full p-2 transition-all duration-300 transform hover:scale-110 hover:shadow-lg ${bgHover} group cursor-pointer`}
+                >
+                  <Icon
+                    size={48}
+                    round
+                    className="group-hover:text-white transition-colors duration-300"
+                  />
+                </Component>
+                <span className="mt-2 text-sm font-medium text-gray-600">{name}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </DialogContent>
-  </Dialog>
-  );
-};
+        </DialogContent>
+      </Dialog>
+    );
+  };
+  

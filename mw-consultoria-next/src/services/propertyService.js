@@ -1,4 +1,4 @@
-import { db } from "../../../services/firebase/firebaseConfig";
+import { db } from "./firebase/firebaseConfig";
 import {
   collection,
   addDoc,
@@ -7,7 +7,7 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { uploadImagesToCloudinary } from "../../../services/CloudinaryService/index";
+import { uploadImagesToCloudinary } from "./CloudinaryService/index";
 
 const propertyCollection = collection(db, "properties");
 

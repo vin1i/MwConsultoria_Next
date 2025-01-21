@@ -9,7 +9,7 @@ export default function Home() {
   const metaTitle = "MW Consultoria Imobiliária - Encontre o imóvel ideal";
   const metaDescription =
     "Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação.";
-  const metaImage = "/static/banner.jpg"; // Substitua pelo caminho real da imagem
+  const metaImage = "/default-share-image.jpg"; // Substitua pelo caminho real da imagem
   const metaUrl = "https://www.mwconsultoriaimobiliaria.com.br";
 
   return (
@@ -24,8 +24,6 @@ export default function Home() {
         <meta property="og:type" content="website" />
       </Head>
 
-     
-
       <section id="inicio">
         <Banner />
       </section>
@@ -37,8 +35,6 @@ export default function Home() {
       <section id="servicos">
         <Servicos />
       </section>
-
-      
     </>
   );
 }

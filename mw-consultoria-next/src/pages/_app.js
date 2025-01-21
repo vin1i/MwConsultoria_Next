@@ -1,6 +1,6 @@
 import { AppContextProvider } from "@/context/AppContext";
 import { LoadingProvider } from "@/context/LoadingContext";
-import { ToastProvider } from "@/hooks/useToast";
+// import { ToastProvider } from "@/hooks/useToast";
 import Global from "@/styles/Global";
 import "@/styles/globals.css";
 
@@ -12,7 +12,7 @@ export default function MyApp({ Component, pageProps }) {
   return (
     <AppContextProvider>
       <LoadingProvider>
-        <ToastProvider>
+  
           <Head>
             <meta charSet="utf-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -74,7 +74,7 @@ export default function MyApp({ Component, pageProps }) {
           <Header />
           <Component {...pageProps} />
           <Footer />
-        </ToastProvider>
+       
       </LoadingProvider>
     </AppContextProvider>
   );

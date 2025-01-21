@@ -55,7 +55,7 @@ function PropertyPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Redireciona se o usuário não estiver autenticado
+    // Redireciona se o usuário não estiver autenticados
     if (!isAuthenticated) {
       router.push("/login");
     } else {

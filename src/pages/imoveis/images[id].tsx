@@ -7,13 +7,13 @@ interface ImageIdPageProps {
 }
 
 const ImageIdPage: React.FC<ImageIdPageProps> = ({ imageId }) => {
-  const url = `https://mwconsultoriaimobiliaria.com.br/imoveis/${imageId}`;
+  const url = `https://mwconsultoriaimobiliaria.com.br/images/${imageId}`;
   const imageUrl = getImageUrl(imageId);
 
   return (
     <>
       <Head>
-        {/* Meta Tags para SEO e Previews */}
+        {/* Meta Tags Específicas para SEO e Previews */}
         <title>Imóvel {imageId} - MW Consultoria Imobiliária</title>
         <meta
           name="description"

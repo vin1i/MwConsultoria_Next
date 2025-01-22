@@ -32,6 +32,7 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       props: {
         url: frontendUrl,
         title: `${metaTitle} - ${metaDescription}`,
+        image: metaImage,
       },
       bgHover: "hover:bg-[#25D366]",
     },

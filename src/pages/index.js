@@ -4,7 +4,7 @@ import Banner from "@/components/Banner";
 import About from "@/components/About";
 import Servicos from "@/components/Servicos/Servicos";
 import Footer from "@/components/Footer";
-import LinkPreview from "@/components/LinkPreview"; // Importando o componente
+import LinkPreview from "@/components/LinkPreview/LinkPreview"; // Importando o componente
 
 export default function Home() {
   const metaTitle = "MW Consultoria Imobiliária - Encontre o imóvel ideal";

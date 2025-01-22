@@ -20,6 +20,7 @@ export default function ImovelPreview({ title, description, image, appPath }) {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
+      <meta property="og:image:type" content="image/jpeg" />
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:url" content={`https://mwconsultoriaimobiliaria.com.br${appPath}`} />
@@ -47,8 +48,8 @@ export async function getServerSideProps(context) {
         title: data.nm_titulo || "Imóvel Disponível",
         description: data.ds_descricao || "Veja os detalhes deste imóvel incrível!",
         image: data.imagens?.[0]
-          ? data.imagens[0].replace("upload/", "upload/w_1200,h_630,c_fill/") // Otimização de imagem no Cloudinary
-          : "https://mwconsultoriaimobiliaria.com.br/default-image.jpg", // Imagem padrão
+          ? data.imagens[0].replace("upload/", "upload/w_1200,h_630,c_fill,f_auto/")
+          : "https://mwconsultoriaimobiliaria.com.br/default-image.jpg",
         appPath: `/imoveis/${id}`,
       },
     };

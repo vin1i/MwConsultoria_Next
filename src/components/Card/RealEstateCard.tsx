@@ -5,6 +5,7 @@ import PropertyImageCarousel from "@/components/ui/PropertyImageCarousel";
 import { useRouter } from "next/router";
 import { useLoading } from "@/context/LoadingContext";
 import { ShareButtonCard } from "../ShareButton/ShareButtonCard";
+import Head from "next/head";
 
 interface RealEstateCardProps {
   id: string;
@@ -47,7 +48,7 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
 }) => {
   const router = useRouter();
   const cloudinaryBaseUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/`;
-
+  const previewImage = imagens.length > 0 ? `${cloudinaryBaseUrl}${imagens[0]}` : '';
   const media = [
     ...(imagens || []).map((img) => ({
       src: img.startsWith('http') ? img : `${cloudinaryBaseUrl}${img}`,
@@ -86,6 +87,17 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
     });
   }; 
   return (
+    <>
+          <Head>
+        <meta property="og:title" content={titulo} />
+        <meta property="og:description" content={descricao} />
+        <meta property="og:image" content={previewImage} />
+        <meta property="og:url" content={`https://seusite.com/imoveis/${id}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={titulo} />
+        <meta name="twitter:description" content={descricao} />
+        <meta name="twitter:image" content={previewImage} />
+      </Head>
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -157,14 +169,15 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
             Ver mais
           </button>
           <ShareButtonCard
-            id={id}
-            title={titulo}
-            description={descricao}
-            images={imagens}
-          />
+  id={id}
+  title={titulo}
+  description={descricao}
+  images={imagens}
+/>
         </div>
       </div>
     </motion.div>
+    </>
   );
 };
 

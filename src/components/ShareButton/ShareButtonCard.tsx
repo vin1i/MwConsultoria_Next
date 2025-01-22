@@ -19,7 +19,7 @@ interface ShareButtonProps {
 
 
 export const ShareButtonCard = ({ id }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}`;
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`;
 
   const socialButtons = [
     {

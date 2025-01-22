@@ -58,7 +58,7 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
     "Confira este imóvel disponível na MW Consultoria Imobiliária.";
   const metaImage =
     media[0]?.src || "https://via.placeholder.com/300x200?text=Sem+Imagem";
-  const metaUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}`;
+  const metaUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`;
 
   const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat("pt-BR", {

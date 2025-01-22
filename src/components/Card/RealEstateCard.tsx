@@ -57,7 +57,7 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
     descricao?.substring(0, 150) ||
     "Confira este imóvel disponível na MW Consultoria Imobiliária.";
   const metaImage =
-    media[0]?.src || "https://via.placeholder.com/300x200?text=Sem+Imagem";
+    media[0]?.src || "https://via.placeholder.com/1200x630?text=Imagem+não+disponível";
   const metaUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}`;
 
   const formatCurrency = (value: number): string => {
@@ -94,13 +94,17 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
   return (
     <>
       <Head>
-        <title>{metaTitle}</title>
-        <meta name="description" content={metaDescription} />
+        {/* Open Graph Meta Tags */}
         <meta property="og:title" content={metaTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:image" content={metaImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta property="og:url" content={metaUrl} />
         <meta property="og:type" content="website" />
+        {/* Meta Tags Padrão */}
+        <title>{metaTitle}</title>
+        <meta name="description" content={metaDescription} />
       </Head>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -111,7 +115,9 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
         <div className="relative">
           <PropertyImageCarousel media={media} />
           <span
-            className={`absolute left-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${getStatusColor(disponibilidade)}`}
+            className={`absolute left-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${getStatusColor(
+              disponibilidade
+            )}`}
           >
             {disponibilidade}
           </span>
@@ -172,10 +178,7 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
             >
               Ver mais
             </button>
-            <ShareButtonCard
-              id={id}
-         
-            />
+            <ShareButtonCard id={id} />
           </div>
         </div>
       </motion.div>

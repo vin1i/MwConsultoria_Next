@@ -25,7 +25,7 @@ export default function Home() {
         <link rel="canonical" href="https://mwconsultoriaimobiliaria.com.br" />
       </Head>
 
-      <Header />
+      
 
       <section id="inicio">
         <Banner />
@@ -39,7 +39,7 @@ export default function Home() {
         <Servicos />
       </section>
 
-      <Footer />
+
     </>
   );
 }

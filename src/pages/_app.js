@@ -34,9 +34,9 @@ export default function MyApp({ Component, pageProps }) {
             />
             <meta
               property="og:image"
-              content="/default-share-image.jpg" 
+              content="/icon-share.jpg" 
             />
-            <meta property="og:url" content="https://www.mwconsultoriaimobiliaria.com.br/" />
+            <meta property="og:url" content="https://mwconsultoriaimobiliaria.com.br/" />
             <meta property="og:type" content="website" />
             
             {/* Ícones */}

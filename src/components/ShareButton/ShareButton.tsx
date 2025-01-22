@@ -18,7 +18,7 @@ interface ShareButtonProps {
 }
 
 export const ShareButton = ({ id }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`;
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}/`;
 
   const socialButtons = [
     {

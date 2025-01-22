@@ -128,7 +128,7 @@ const ImobiDetails = ({ initialProperty }) => {
     "Confira este imóvel disponível na MW Consultoria Imobiliária.";
   const metaImage =
     images[0]?.src || "https://via.placeholder.com/300x200?text=Sem+Imagem";
-  const metaUrl = `https://www.mwconsultoriaimobiliaria.com.br/imoveis/${id}`;
+  const metaUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}`;
 
   return (
     <Wrapper>

@@ -1,39 +1,23 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { doc, getDoc } from "firebase/firestore";
-import { db } from "../../services/firebase/firebaseConfig";
+import React from "react";
+import ImobiDetails from "../../components/ImovelDetail";
+import { doc, getDoc } from 'firebase/firestore'; // Certifique-se de importar getDoc
+import { db } from '../../services/firebase/firebaseConfig'; 
 
-const ImovelPage = () => {
-  const { query } = useRouter();
-  const [property, setProperty] = useState(null);
-  const [loading, setLoading] = useState(true);
+export async function getServerSideProps({ params }) {
+  const { id } = params;
+  const docRef = doc(db, "properties", id); // Referência ao documento
+  const docSnap = await getDoc(docRef); // Obtém o documento
 
-  useEffect(() => {
-    if (!query.id) return;
+  // Verifica se o documento existe
+  if (!docSnap.exists()) return { notFound: true };
 
-    const fetchData = async () => {
-      const docRef = doc(db, "properties", query.id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        setProperty({ id: query.id, ...docSnap.data() });
-      } else {
-        console.error("Imóvel não encontrado");
-      }
-      setLoading(false);
-    };
+  // Mapeia os dados do documento para props
+  const property = { id, ...docSnap.data() };
+  return { props: { id, initialProperty: property } };
+}
 
-    fetchData();
-  }, [query.id]);
-
-  if (loading) return <p>Carregando...</p>;
-  if (!property) return <p>Imóvel não encontrado.</p>;
-
-  return (
-    <div>
-      <h1>{property.title}</h1>
-      <p>{property.description}</p>
-    </div>
-  );
-};
+const ImovelPage = ({ id, initialProperty }) => (
+  <ImobiDetails id={id} initialProperty={initialProperty} />
+);
 
 export default ImovelPage;

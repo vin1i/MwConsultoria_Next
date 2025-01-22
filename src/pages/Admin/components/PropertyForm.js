@@ -3,7 +3,7 @@ import { uploadImagesToCloudinary } from "../../../services/CloudinaryService/in
 import { toast, ToastContainer } from "react-toastify";
 import Carousel from "../../../components/Carousel/index";
 import { NumericFormat } from "react-number-format";
-import ImageReorder from "../../../components/ImageReorder/ImageReorder.js";
+import ImageReorder from "../../../components/ImageReorder/ImageReorder";
 import styled from "styled-components";
 
 const FormContainer = styled.form`

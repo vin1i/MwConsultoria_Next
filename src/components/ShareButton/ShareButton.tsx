@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
   FacebookShareButton,
@@ -21,7 +27,7 @@ interface ShareButtonProps {
 }
 
 export const ShareButton = ({ id, title, description, image }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}`;
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}`; // Cachebuster para garantir que o preview seja atualizado
 
   const socialButtons = [
     {
@@ -29,8 +35,8 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
       Icon: WhatsappIcon,
       name: "WhatsApp",
       props: {
-        url: frontendUrl,
-        title: `${title} - ${description}`, // Título e descrição no WhatsApp
+        url: frontendUrl, // URL dinâmica com cachebuster
+        title: `${title} - ${description}`, // Combina título e descrição
       },
       bgHover: "hover:bg-[#25D366]",
     },
@@ -39,7 +45,7 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
       Icon: FacebookIcon,
       name: "Facebook",
       props: {
-        url: frontendUrl,
+        url: frontendUrl, // URL dinâmica
         quote: title, // Apenas o título no Facebook
         hashtag: "#Imoveis",
       },
@@ -51,7 +57,7 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
       name: "Twitter",
       props: {
         url: frontendUrl,
-        title: `${title} - ${description}`, // Título e descrição no Twitter
+        title: `${title} - ${description}`, // Combina título e descrição
       },
       bgHover: "hover:bg-[#1DA1F2]",
     },
@@ -74,6 +80,7 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
   const handleClose = () => {
     setIsOpen(false);
   };
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -86,7 +93,7 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
         </Button>
       </DialogTrigger>
 
-      <DialogContent  isOpen={isOpen} onClose={handleClose} className="sm:max-w-md">
+      <DialogContent isOpen={isOpen} onClose={handleClose} className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-semibold text-center">
             Compartilhar

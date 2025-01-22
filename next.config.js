@@ -46,6 +46,51 @@ const nextConfig = withTM({
       },
     ];
   },
+
+  async rewrites() {
+    const destinationHost = "https://mwconsultoriaimobiliaria.com.br";
+
+    return [
+      // Todas as rotas da LP
+      {
+        source: "/:path*",
+        destination: "/:path*",
+      },
+
+      // Arquivos estáticos do App
+      {
+        source: "/favicon.ico",
+        destination: `${destinationHost}/favicon.ico`,
+      },
+      {
+        source: "/static/:path*",
+        destination: `${destinationHost}/static/:path*`,
+      },
+      {
+        source: "/fonts/:path*",
+        destination: `${destinationHost}/fonts/:path*`,
+      },
+
+      // Rotas específicas para pré-visualização de links
+      {
+        source: "/imoveis/:id",
+        destination: `/_preview/imoveis/:id`,
+      },
+
+      // Redirecionar rotas já processadas
+      {
+        source: "/:path*",
+        has: [{ type: "query", key: "from_landing" }],
+        destination: `${destinationHost}/:path*`,
+      },
+
+      // Fallback para outras rotas
+      {
+        source: "/:path*",
+        destination: `${destinationHost}/:path*`,
+      },
+    ];
+  },
 });
 
 module.exports = nextConfig;

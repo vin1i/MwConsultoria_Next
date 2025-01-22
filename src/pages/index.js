@@ -4,26 +4,28 @@ import Banner from "@/components/Banner";
 import About from "@/components/About";
 import Servicos from "@/components/Servicos/Servicos";
 import Footer from "@/components/Footer";
-import LinkPreview from "@/components/LinkPreview/LinkPreview"; // Importando o componente
 
 export default function Home() {
-  const metaTitle = "MW Consultoria Imobiliária - Encontre o imóvel ideal";
-  const metaDescription =
-    "Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação.";
-  const metaImage = "/LogoNovaHome.jpg"; // Substitua pelo caminho real da imagem
-  const metaUrl = "https://www.mwconsultoriaimobiliaria.com.br";
-
   return (
     <>
       <Head>
-        <title>{metaTitle}</title>
-        <meta name="description" content={metaDescription} />
-        <meta property="og:title" content={metaTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:image" content={metaImage} />
-        <meta property="og:url" content={metaUrl} />
+        {/* SEO e Open Graph Tags específicas para a página inicial */}
+        <title>MW Consultoria Imobiliária - Encontre o imóvel ideal</title>
+        <meta name="description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+        <meta property="og:title" content="MW Consultoria Imobiliária - Encontre o imóvel ideal" />
+        <meta property="og:description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+        <meta property="og:image" content="https://www.mwconsultoriaimobiliaria.com.br/default-image.jpg" />
+        <meta property="og:url" content="https://www.mwconsultoriaimobiliaria.com.br" />
         <meta property="og:type" content="website" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="MW Consultoria Imobiliária - Encontre o imóvel ideal" />
+        <meta name="twitter:description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+        <meta name="twitter:image" content="https://www.mwconsultoriaimobiliaria.com.br/default-image.jpg" />
+        <meta name="robots" content="index, follow" />
+        <link rel="canonical" href="https://www.mwconsultoriaimobiliaria.com.br" />
       </Head>
+
+      <Header />
 
       <section id="inicio">
         <Banner />
@@ -35,14 +37,6 @@ export default function Home() {
 
       <section id="servicos">
         <Servicos />
-      </section>
-
-      {/* Adicionando o componente LinkPreview */}
-      <section id="link-preview" className="my-10">
-        <h2 className="text-center text-2xl font-bold mb-6">Visualizador de Links</h2>
-        <div className="flex justify-center">
-          <LinkPreview url="https://www.google.com" />
-        </div>
       </section>
 
       <Footer />

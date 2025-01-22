@@ -116,7 +116,7 @@ const PropertyList = ({ onEdit, onDelete }) => {
               {property.imagens && property.imagens.length > 0 ? (
                 <img
                   src={property.imagens[0]} // Mostra a primeira imagem do array normalizado
-                  alt={`Imagem do imóvelVini: ${property.titulo}`}
+                  alt={`Imagem do imóvel: ${property.titulo}`}
                 />
               ) : (
                 <img

@@ -44,11 +44,7 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
       Component: FacebookShareButton,
       Icon: FacebookIcon,
       name: "Facebook",
-      props: {
-        url: frontendUrl, 
-        quote: title, 
-        hashtag: "#Imoveis",
-      },
+      props: { url: frontendUrl },
       bgHover: "hover:bg-[#1877F2]",
     },
     {

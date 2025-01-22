@@ -40,17 +40,13 @@ export const ShareButtonCard = ({ id, title, description, image }: ShareButtonPr
       },
       bgHover: "hover:bg-[#25D366]",
     },
-    {
-      Component: FacebookShareButton,
-      Icon: FacebookIcon,
-      name: "Facebook",
-      props: {
-        url: frontendUrl, 
-        quote: title, 
-        hashtag: "#Imoveis",
+     {
+        Component: FacebookShareButton,
+        Icon: FacebookIcon,
+        name: "Facebook",
+        props: { url: frontendUrl },
+        bgHover: "hover:bg-[#1877F2]",
       },
-      bgHover: "hover:bg-[#1877F2]",
-    },
     {
       Component: TwitterShareButton,
       Icon: TwitterIcon,

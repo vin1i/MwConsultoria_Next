@@ -21,8 +21,9 @@ interface ShareButtonProps {
 }
 
 export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}`;
- 
+  // Rota ajustada para acessar o `images/[id]`
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/images/${id}`;
+
   const socialButtons = [
     {
       Component: WhatsappShareButton,
@@ -30,7 +31,7 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       name: "WhatsApp",
       props: {
         url: frontendUrl,
-        title: `${metaTitle} - ${metaDescription}`, // Inclui título e descrição no WhatsApp
+        title: `${metaTitle} - ${metaDescription}`,
       },
       bgHover: "hover:bg-[#25D366]",
     },
@@ -40,7 +41,7 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       name: "Facebook",
       props: {
         url: frontendUrl,
-        quote: metaTitle, // Inclui título no Facebook
+        quote: metaTitle,
         hashtag: "#Imoveis",
       },
       bgHover: "hover:bg-[#1877F2]",
@@ -51,7 +52,7 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       name: "Twitter",
       props: {
         url: frontendUrl,
-        title: `${metaTitle} - ${metaDescription}`, // Inclui título e descrição no Twitter
+        title: `${metaTitle} - ${metaDescription}`,
       },
       bgHover: "hover:bg-[#1DA1F2]",
     },
@@ -68,6 +69,7 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       bgHover: "hover:bg-[#0A66C2]",
     },
   ];
+
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {

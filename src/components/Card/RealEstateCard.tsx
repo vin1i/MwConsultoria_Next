@@ -94,18 +94,30 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
   return (
     <>
       <Head>
-        {/* Open Graph Meta Tags */}
-        <meta property="og:title" content={metaTitle} />
-        <meta property="og:description" content={metaDescription} />
-        <meta property="og:image" content={metaImage} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-        <meta property="og:url" content={metaUrl} />
-        <meta property="og:type" content="website" />
-        {/* Meta Tags Padrão */}
-        <title>{metaTitle}</title>
-        <meta name="description" content={metaDescription} />
-      </Head>
+       {/* Meta Tags Gerais */}
+  <title>{metaTitle}</title>
+  <meta name="description" content={metaDescription} />
+
+  {/* Open Graph Meta Tags (Facebook, WhatsApp, LinkedIn) */}
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content={metaTitle} />
+  <meta property="og:description" content={metaDescription} />
+  <meta property="og:image" content={metaImage} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:url" content={metaUrl} />
+  <meta property="og:locale" content="pt_BR" />
+
+  {/* Twitter Meta Tags */}
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={metaTitle} />
+  <meta name="twitter:description" content={metaDescription} />
+  <meta name="twitter:image" content={metaImage} />
+  <meta name="twitter:url" content={metaUrl} />
+  <meta name="twitter:site" content="@mwconsultoriaimobiliaria" />
+
+  
+</Head>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}

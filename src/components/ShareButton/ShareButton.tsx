@@ -35,8 +35,8 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
       Icon: WhatsappIcon,
       name: "WhatsApp",
       props: {
-        url: frontendUrl, // URL dinâmica com cachebuster
-        title: `${title} - ${description}`, // Combina título e descrição
+        url: frontendUrl, 
+       
       },
       bgHover: "hover:bg-[#25D366]",
     },

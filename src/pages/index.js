@@ -14,15 +14,15 @@ export default function Home() {
         <meta name="description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
         <meta property="og:title" content="MW Consultoria Imobiliária - Encontre o imóvel ideal" />
         <meta property="og:description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
-        <meta property="og:image" content="https://www.mwconsultoriaimobiliaria.com.br/default-image.jpg" />
-        <meta property="og:url" content="https://www.mwconsultoriaimobiliaria.com.br" />
+        <meta property="og:image" content="https://mwconsultoriaimobiliaria.com.br/default-image.jpg" />
+        <meta property="og:url" content="https://mwconsultoriaimobiliaria.com.br" />
         <meta property="og:type" content="website" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="MW Consultoria Imobiliária - Encontre o imóvel ideal" />
         <meta name="twitter:description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
-        <meta name="twitter:image" content="https://www.mwconsultoriaimobiliaria.com.br/default-image.jpg" />
+        <meta name="twitter:image" content="https://mwconsultoriaimobiliaria.com.br/default-image.jpg" />
         <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://www.mwconsultoriaimobiliaria.com.br" />
+        <link rel="canonical" href="https://mwconsultoriaimobiliaria.com.br" />
       </Head>
 
       <Header />

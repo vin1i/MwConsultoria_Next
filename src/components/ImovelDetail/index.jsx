@@ -241,10 +241,8 @@ const ImobiDetails = ({ initialProperty }) => {
             <FaWhatsapp />
           </WhatsAppButton >
           <ShareButton
-          id={id}
-          title={metaTitle}
-          description={metaDescription}
-          image={metaImage}
+         
+         
         />
          
         </div>

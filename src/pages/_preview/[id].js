@@ -20,6 +20,8 @@ export default function ImovelPreview({ title, description, image, appPath }) {
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:url" content={`https://mwconsultoriaimobiliaria.com.br${appPath}`} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
@@ -27,7 +29,6 @@ export default function ImovelPreview({ title, description, image, appPath }) {
       <meta name="twitter:image" content={image} />
       <meta name="robots" content="index, follow" />
       <link rel="canonical" href={`https://mwconsultoriaimobiliaria.com.br${appPath}`} />
-      
     </Head>
   );
 }
@@ -45,7 +46,9 @@ export async function getServerSideProps(context) {
       props: {
         title: data.nm_titulo || "Imóvel Disponível",
         description: data.ds_descricao || "Veja os detalhes deste imóvel incrível!",
-        image: data.imagens?.[0] || "https://mwconsultoriaimobiliaria.com.br/default-image.jpg", // Adicione a URL padrão
+        image: data.imagens?.[0]
+          ? data.imagens[0].replace("upload/", "upload/w_1200,h_630,c_fill/") // Otimização de imagem no Cloudinary
+          : "https://mwconsultoriaimobiliaria.com.br/default-image.jpg", // Imagem padrão
         appPath: `/imoveis/${id}`,
       },
     };

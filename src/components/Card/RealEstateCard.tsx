@@ -178,7 +178,12 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
             >
               Ver mais
             </button>
-            <ShareButtonCard id={id} />
+            <ShareButtonCard
+  id={id}
+  metaTitle={metaTitle}
+  metaDescription={metaDescription}
+  metaImage={metaImage}
+/>
           </div>
         </div>
       </motion.div>

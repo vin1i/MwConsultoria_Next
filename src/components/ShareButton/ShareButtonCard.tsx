@@ -15,12 +15,13 @@ import { Share2 } from "lucide-react";
 
 interface ShareButtonProps {
   id: string;
+  metaTitle: string;
+  metaDescription: string;
+  metaImage: string;
 }
 
-
-export const ShareButtonCard = ({ id }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}/`;
-
+export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: ShareButtonProps) => {
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}`;
   const socialButtons = [
     {
       Component: WhatsappShareButton,

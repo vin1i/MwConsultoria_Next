@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import {
   FacebookShareButton,
@@ -15,14 +21,13 @@ import { Share2 } from "lucide-react";
 
 interface ShareButtonProps {
   id: string;
-  metaTitle: string;
-  metaDescription: string;
-  metaImage: string;
+  title: string;
+  description: string;
+  image: string;
 }
 
-export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: ShareButtonProps) => {
-  // Rota ajustada para acessar o `images/[id]`
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/images/${id}`;
+export const ShareButtonCard = ({ id, title, description, image }: ShareButtonProps) => {
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`; // Cachebuster para garantir que o preview seja atualizado
 
   const socialButtons = [
     {
@@ -30,9 +35,8 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       Icon: WhatsappIcon,
       name: "WhatsApp",
       props: {
-        url: frontendUrl,
-        title: `${metaTitle} - ${metaDescription}`,
-        image: metaImage,
+        url: frontendUrl, 
+       
       },
       bgHover: "hover:bg-[#25D366]",
     },
@@ -41,8 +45,8 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       Icon: FacebookIcon,
       name: "Facebook",
       props: {
-        url: frontendUrl,
-        quote: metaTitle,
+        url: frontendUrl, 
+        quote: title, 
         hashtag: "#Imoveis",
       },
       bgHover: "hover:bg-[#1877F2]",
@@ -53,7 +57,7 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       name: "Twitter",
       props: {
         url: frontendUrl,
-        title: `${metaTitle} - ${metaDescription}`,
+      title: `${title} - ${description}`
       },
       bgHover: "hover:bg-[#1DA1F2]",
     },
@@ -63,8 +67,8 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
       name: "LinkedIn",
       props: {
         url: frontendUrl,
-        title: metaTitle,
-        summary: metaDescription,
+        title,
+        summary: description, // Resumo no LinkedIn
         source: frontendUrl,
       },
       bgHover: "hover:bg-[#0A66C2]",
@@ -85,13 +89,15 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
           className="flex items-center gap-2 hover:bg-[#9C192B] hover:text-white transition-colors duration-200 rounded-[25px]"
         >
           <Share2 className="w-4 h-4" />
-      
+          Compartilhar
         </Button>
       </DialogTrigger>
 
       <DialogContent isOpen={isOpen} onClose={handleClose} className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-center">Compartilhar</DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-center">
+            Compartilhar
+          </DialogTitle>
         </DialogHeader>
 
         <div className="grid grid-cols-2 gap-6 p-6">

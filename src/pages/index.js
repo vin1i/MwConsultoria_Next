@@ -9,6 +9,7 @@ export default function Home() {
   return (
     <>
       <Head>
+      <link rel="icon" href="/favicon.ico" />
         {/* SEO e Open Graph Tags específicas para a página inicial */}
         <title>MW Consultoria Imobiliária - Encontre o imóvel ideal</title>
         <meta name="description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />

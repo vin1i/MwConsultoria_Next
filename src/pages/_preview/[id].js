@@ -40,7 +40,7 @@ export async function getServerSideProps(context) {
   try {
     const data = await getImovelById(id);
     if (!data) {
-      return { notFound: true }; // Retorna 404 se o imóvel não for encontrado
+      return { notFound: true }; 
     }
 
     return {

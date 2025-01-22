@@ -191,10 +191,12 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
               Ver mais
             </button>
             <ShareButtonCard
-  id={id}
-  metaTitle={metaTitle}
-  metaDescription={metaDescription}
-  metaImage={metaImage}
+              id={id}
+              title={titulo} 
+              description={descricao} 
+              image={imagens[0]}
+              
+ 
 />
           </div>
         </div>

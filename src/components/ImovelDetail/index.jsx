@@ -242,8 +242,7 @@ const ImobiDetails = ({ initialProperty }) => {
           </WhatsAppButton >
           <ShareButton
           id={id}
-        
-          image={metaImage}
+  
         />
          
         </div>

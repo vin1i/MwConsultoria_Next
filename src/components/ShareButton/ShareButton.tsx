@@ -27,7 +27,7 @@ interface ShareButtonProps {
 }
 
 export const ShareButton = ({ id, title, description, image }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}`; // Cachebuster para garantir que o preview seja atualizado
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`; // Cachebuster para garantir que o preview seja atualizado
 
   const socialButtons = [
     {
@@ -45,8 +45,8 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
       Icon: FacebookIcon,
       name: "Facebook",
       props: {
-        url: frontendUrl, // URL dinâmica
-        quote: title, // Apenas o título no Facebook
+        url: frontendUrl, 
+        quote: title, 
         hashtag: "#Imoveis",
       },
       bgHover: "hover:bg-[#1877F2]",

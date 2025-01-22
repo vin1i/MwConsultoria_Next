@@ -85,7 +85,7 @@ export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: S
           className="flex items-center gap-2 hover:bg-[#9C192B] hover:text-white transition-colors duration-200 rounded-[25px]"
         >
           <Share2 className="w-4 h-4" />
-          Compartilhar
+      
         </Button>
       </DialogTrigger>
 

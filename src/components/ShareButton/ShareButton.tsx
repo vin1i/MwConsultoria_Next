@@ -15,38 +15,56 @@ import { Share2 } from "lucide-react";
 
 interface ShareButtonProps {
   id: string;
+  title: string;
+  description: string;
+  image: string;
 }
 
-export const ShareButton = ({ id }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}/`;
+export const ShareButton = ({ id, title, description, image }: ShareButtonProps) => {
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}`;
 
   const socialButtons = [
     {
       Component: WhatsappShareButton,
       Icon: WhatsappIcon,
       name: "WhatsApp",
-      props: { url: frontendUrl },
+      props: {
+        url: frontendUrl,
+        title: `${title} - ${description}`, // Título e descrição no WhatsApp
+      },
       bgHover: "hover:bg-[#25D366]",
     },
     {
       Component: FacebookShareButton,
       Icon: FacebookIcon,
       name: "Facebook",
-      props: { url: frontendUrl },
+      props: {
+        url: frontendUrl,
+        quote: title, // Apenas o título no Facebook
+        hashtag: "#Imoveis",
+      },
       bgHover: "hover:bg-[#1877F2]",
     },
     {
       Component: TwitterShareButton,
       Icon: TwitterIcon,
       name: "Twitter",
-      props: { url: frontendUrl },
+      props: {
+        url: frontendUrl,
+        title: `${title} - ${description}`, // Título e descrição no Twitter
+      },
       bgHover: "hover:bg-[#1DA1F2]",
     },
     {
       Component: LinkedinShareButton,
       Icon: LinkedinIcon,
       name: "LinkedIn",
-      props: { url: frontendUrl },
+      props: {
+        url: frontendUrl,
+        title,
+        summary: description, // Resumo no LinkedIn
+        source: frontendUrl,
+      },
       bgHover: "hover:bg-[#0A66C2]",
     },
   ];
@@ -56,7 +74,6 @@ export const ShareButton = ({ id }: ShareButtonProps) => {
   const handleClose = () => {
     setIsOpen(false);
   };
-
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -69,9 +86,11 @@ export const ShareButton = ({ id }: ShareButtonProps) => {
         </Button>
       </DialogTrigger>
 
-      <DialogContent isOpen={isOpen} onClose={handleClose} className="sm:max-w-md">
+      <DialogContent  isOpen={isOpen} onClose={handleClose} className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-center">Compartilhar</DialogTitle>
+          <DialogTitle className="text-xl font-semibold text-center">
+            Compartilhar
+          </DialogTitle>
         </DialogHeader>
 
         <div className="grid grid-cols-2 gap-6 p-6">

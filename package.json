@@ -16,6 +16,7 @@
     "embla-carousel-react": "^8.5.2",
     "firebase": "^11.2.0",
     "framer-motion": "^11.18.1",
+    "jsdom": "^26.0.0",
     "lucide-react": "^0.473.0",
     "next": "^15.1.5",
     "next-transpile-modules": "^10.0.1",

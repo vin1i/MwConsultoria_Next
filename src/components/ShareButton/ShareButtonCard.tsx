@@ -22,37 +22,52 @@ interface ShareButtonProps {
 
 export const ShareButtonCard = ({ id, metaTitle, metaDescription, metaImage }: ShareButtonProps) => {
   const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}`;
+ 
   const socialButtons = [
     {
       Component: WhatsappShareButton,
       Icon: WhatsappIcon,
       name: "WhatsApp",
-      props: { url: frontendUrl },
+      props: {
+        url: frontendUrl,
+        title: `${metaTitle} - ${metaDescription}`, // Inclui título e descrição no WhatsApp
+      },
       bgHover: "hover:bg-[#25D366]",
     },
     {
       Component: FacebookShareButton,
       Icon: FacebookIcon,
       name: "Facebook",
-      props: { url: frontendUrl },
+      props: {
+        url: frontendUrl,
+        quote: metaTitle, // Inclui título no Facebook
+        hashtag: "#Imoveis",
+      },
       bgHover: "hover:bg-[#1877F2]",
     },
     {
       Component: TwitterShareButton,
       Icon: TwitterIcon,
       name: "Twitter",
-      props: { url: frontendUrl },
+      props: {
+        url: frontendUrl,
+        title: `${metaTitle} - ${metaDescription}`, // Inclui título e descrição no Twitter
+      },
       bgHover: "hover:bg-[#1DA1F2]",
     },
     {
       Component: LinkedinShareButton,
       Icon: LinkedinIcon,
       name: "LinkedIn",
-      props: { url: frontendUrl },
+      props: {
+        url: frontendUrl,
+        title: metaTitle,
+        summary: metaDescription,
+        source: frontendUrl,
+      },
       bgHover: "hover:bg-[#0A66C2]",
     },
   ];
-
   const [isOpen, setIsOpen] = useState(false);
 
   const handleClose = () => {

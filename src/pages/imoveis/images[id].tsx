@@ -47,7 +47,7 @@ const ImageIdPage: React.FC<ImageIdPageProps> = ({ imageId }) => {
       {/* Renderização da Imagem */}
       <main className="container mx-auto mt-12 flex min-h-screen justify-center">
         <img
-          alt={`Imagem do imóvelVini ${imageId}`}
+          alt={`Imagem do imóvel ${imageId}`}
           title={`Imagem do imóvel ${imageId}`}
           className="mb-12 h-96 w-96 rounded-3xl"
           src={imageUrl}

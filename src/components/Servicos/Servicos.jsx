@@ -34,7 +34,7 @@ const Servicos = () => {
 
   return (
     <div style={{ backgroundColor: "var(--grey)" }}>
-      <TituloServicos ref={titleRef} isVisible={isTitleVisible}>
+      <TituloServicos ref={titleRef} $isVisible={isTitleVisible}>
         <h1>SERVIÇOS</h1>
       </TituloServicos>
       <ServicosContainer>

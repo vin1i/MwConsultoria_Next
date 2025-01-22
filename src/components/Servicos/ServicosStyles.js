@@ -144,6 +144,7 @@ export const DuvidasText = styled.div`
   }
 `;
 
+
 export const TituloServicos = styled.div`
   font-size: 1.8rem;
   color: var(--red);
@@ -161,8 +162,8 @@ export const TituloServicos = styled.div`
     height: 2px;
     background-color: var(--black);
     width: 0;
-    ${({ isVisible }) =>
-      isVisible &&
+    ${({ $isVisible }) =>
+      $isVisible &&
       css`
         animation: ${growLine} 1s ease-in-out forwards;
       `}
@@ -176,8 +177,8 @@ export const TituloServicos = styled.div`
     &::after {
       left: 20px;
       width: 0;
-      ${({ isVisible }) =>
-        isVisible &&
+      ${({ $isVisible }) =>
+        $isVisible &&
         css`
           animation: ${growLine} 1s ease-in-out forwards;
         `}
@@ -192,15 +193,14 @@ export const TituloServicos = styled.div`
     &::after {
       left: 15px;
       width: 0;
-      ${({ isVisible }) =>
-        isVisible &&
+      ${({ $isVisible }) =>
+        $isVisible &&
         css`
           animation: ${growLine} 1s ease-in-out forwards;
         `}
     }
   }
 `;
-
 export const WhatsAppButton = styled.a`
   background-color: var(--red);
   color: var(--white);

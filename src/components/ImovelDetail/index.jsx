@@ -24,7 +24,7 @@ import {
 } from "react-icons/fa";
 import Carousel from "../Carousel";
 import { getImovelById } from "@/services/firebase/firestoreService";
-import { ShareButton } from "../ShareButton/ShareButton.tsx";
+import { ShareButton } from "../ShareButton/ShareButton";
 const ImobiDetails = ({ initialProperty }) => {
   const router = useRouter();
   const { id } = router.query;
@@ -128,7 +128,7 @@ const ImobiDetails = ({ initialProperty }) => {
     "Confira este imóvel disponível na MW Consultoria Imobiliária.";
   const metaImage =
     images[0]?.src || "https://via.placeholder.com/300x200?text=Sem+Imagem";
-  const metaUrl = `https://cfc8-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/imoveis/${id}`;
+  const metaUrl = `https://www.mwconsultoriaimobiliaria.com.br/imoveis/${id}`;
 
   return (
     <Wrapper>

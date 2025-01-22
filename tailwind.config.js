@@ -1,12 +1,9 @@
 /** @type {import('tailwindcss').Config} */
 import { Config } from "tailwindcss";
 
-export default {
+const config = {
   darkMode: ["class"],
   content: [
-     "./pages/**/*.{js,jsx,ts,tsx}",
-    "./components/**/*.{js,jsx,ts,tsx}",
-    "./app/**/*.{js,jsx,ts,tsx}",
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   
@@ -27,7 +24,7 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#222222",
+          DEFAULT: "#9C192B",
           foreground: "#FFFFFF",
         },
         secondary: {
@@ -39,7 +36,7 @@ export default {
           foreground: "#222222",
         },
         badge: {
-          available: "#4CAF50",
+          available: "#9C192B",
           pending: "#FFA726",
           sold: "#EF5350",
         },
@@ -77,3 +74,4 @@ export default {
   },
   plugins: [require("tailwindcss-animate")],
 } 
+export default config;

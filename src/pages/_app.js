@@ -36,7 +36,7 @@ export default function MyApp({ Component, pageProps }) {
               property="og:image"
               content="/default-share-image.jpg" 
             />
-            <meta property="og:url" content="https://cfc8-2804-5180-2305-21dc-d957-b9ab-f5a8-1902.ngrok-free.app/" />
+            <meta property="og:url" content="https://www.mwconsultoriaimobiliaria.com.br/" />
             <meta property="og:type" content="website" />
             
             {/* Ícones */}

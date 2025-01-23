@@ -11,7 +11,7 @@ export default function ImovelPreview({ title, description, image, appPath }) {
     if (!query.from_landing) {
       router.push({ pathname: appPath, query: { from_landing: true } });
     }
-  }, [router, appPath]);
+  }, [router]);
 
   return (
     <Head>

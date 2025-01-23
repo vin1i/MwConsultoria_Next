@@ -7,69 +7,26 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import {
-  FacebookShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-  LinkedinShareButton,
-  FacebookIcon,
-  TwitterIcon,
-  WhatsappIcon,
-  LinkedinIcon,
-} from "react-share";
 import { Share2 } from "lucide-react";
+import {
+  WhatsappShareButton,
+  WhatsappIcon,
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from "next-share";
 
 interface ShareButtonProps {
   id: string;
-  title: string;
-  description: string;
   image: string;
 }
 
-export const ShareButton = ({ id, title, description, image }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`; // Cachebuster para garantir que o preview seja atualizado
-
-  const socialButtons = [
-    {
-      Component: WhatsappShareButton,
-      Icon: WhatsappIcon,
-      name: "WhatsApp",
-      props: {
-        url: frontendUrl, 
-       
-      },
-      bgHover: "hover:bg-[#25D366]",
-    },
-    {
-      Component: FacebookShareButton,
-      Icon: FacebookIcon,
-      name: "Facebook",
-      props: { url: frontendUrl },
-      bgHover: "hover:bg-[#1877F2]",
-    },
-    {
-      Component: TwitterShareButton,
-      Icon: TwitterIcon,
-      name: "Twitter",
-      props: {
-        url: frontendUrl,
-        title: `${title} - ${description}`, // Combina título e descrição
-      },
-      bgHover: "hover:bg-[#1DA1F2]",
-    },
-    {
-      Component: LinkedinShareButton,
-      Icon: LinkedinIcon,
-      name: "LinkedIn",
-      props: {
-        url: frontendUrl,
-        title,
-        summary: description, // Resumo no LinkedIn
-        source: frontendUrl,
-      },
-      bgHover: "hover:bg-[#0A66C2]",
-    },
-  ];
+export const ShareButton = ({ id, image }: ShareButtonProps) => {
+  const timestamp = new Date().getTime();
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/?cachebuster=${timestamp}`;
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -97,23 +54,25 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
         </DialogHeader>
 
         <div className="grid grid-cols-2 gap-6 p-6">
-          {socialButtons.map(({ Component, Icon, name, props, bgHover }) => (
-            <div key={name} className="flex flex-col items-center">
-              <Component
-                {...props}
-                className={`rounded-full p-2 transition-all duration-300 
-                  transform hover:scale-110 hover:shadow-lg ${bgHover} 
-                  group cursor-pointer `}
-              >
-                <Icon
-                  size={48}
-                  round
-                  className="group-hover:text-white transition-colors duration-300"
-                />
-              </Component>
-              <span className="mt-2 text-sm font-medium text-gray-600">{name}</span>
-            </div>
-          ))}
+          {/* WhatsApp */}
+          <WhatsappShareButton url={frontendUrl}>
+            <WhatsappIcon size={48} round />
+          </WhatsappShareButton>
+
+          {/* Facebook */}
+          <FacebookShareButton url={frontendUrl}>
+            <FacebookIcon size={48} round />
+          </FacebookShareButton>
+
+          {/* Twitter */}
+          <TwitterShareButton url={frontendUrl}>
+            <TwitterIcon size={48} round />
+          </TwitterShareButton>
+
+          {/* LinkedIn */}
+          <LinkedinShareButton url={frontendUrl}>
+            <LinkedinIcon size={48} round />
+          </LinkedinShareButton>
         </div>
       </DialogContent>
     </Dialog>

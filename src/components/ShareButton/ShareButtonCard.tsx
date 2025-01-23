@@ -27,7 +27,9 @@ interface ShareButtonProps {
 }
 
 export const ShareButtonCard = ({ id, title, description, image }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`; // Cachebuster para garantir que o preview seja atualizado
+  const timestamp = new Date().getTime();
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/?cachebuster=${timestamp}`; // Cachebuster para garantir que o preview seja atualizado
+ // Cachebuster para garantir que o preview seja atualizado
 
   const socialButtons = [
     {

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import Image from "next/image";
 import { GetServerSideProps } from "next";
 import { getImageUrl } from "@/utils/getImageUrl";
 
@@ -7,13 +8,13 @@ interface ImageIdPageProps {
 }
 
 const ImageIdPage: React.FC<ImageIdPageProps> = ({ imageId }) => {
+  const timestamp = new Date().getTime(); // Gera um timestamp único
   const url = `https://mwconsultoriaimobiliaria.com.br/images/${imageId}`;
-  const imageUrl = getImageUrl(imageId);
+  const imageUrl = `${getImageUrl(imageId)}?cachebuster=${timestamp}`;
 
   return (
     <>
       <Head>
-        {/* Meta Tags Específicas para SEO e Previews */}
         <title>Imóvel {imageId} - MW Consultoria Imobiliária</title>
         <meta
           name="description"
@@ -21,7 +22,6 @@ const ImageIdPage: React.FC<ImageIdPageProps> = ({ imageId }) => {
         />
         <link rel="icon" href="/favicon.ico" />
 
-        {/* Open Graph (Facebook, WhatsApp, etc.) */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content={`Imóvel ${imageId} - MW Consultoria Imobiliária`} />
         <meta
@@ -32,7 +32,6 @@ const ImageIdPage: React.FC<ImageIdPageProps> = ({ imageId }) => {
         <meta property="og:image:secure_url" content={imageUrl} />
         <meta property="og:url" content={url} />
 
-        {/* Twitter Cards */}
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={`Imóvel ${imageId} - MW Consultoria Imobiliária`} />
         <meta
@@ -44,13 +43,16 @@ const ImageIdPage: React.FC<ImageIdPageProps> = ({ imageId }) => {
         <meta name="twitter:site" content="@mwconsultoriaimobiliaria" />
       </Head>
 
-      {/* Renderização da Imagem */}
       <main className="container mx-auto mt-12 flex min-h-screen justify-center">
-        <img
+        <Image
           alt={`Imagem do imóvel ${imageId}`}
           title={`Imagem do imóvel ${imageId}`}
-          className="mb-12 h-96 w-96 rounded-3xl"
+          className="mb-12 rounded-3xl"
           src={imageUrl}
+          width={384}
+          height={384}
+          placeholder="blur"
+          priority
         />
       </main>
     </>
@@ -59,7 +61,6 @@ const ImageIdPage: React.FC<ImageIdPageProps> = ({ imageId }) => {
 
 export default ImageIdPage;
 
-// Configuração do SSR para buscar o `imageId` da URL
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
   const imageId = params?.id as string;
 

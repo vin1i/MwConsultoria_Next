@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PropertyImageCarouselProps {
   media: {
-    src: string; // URL da imagem já formatada com o ID do Cloudinary
+    src: string;
     type: "image";
   }[];
 }
@@ -45,7 +45,6 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
     );
   }
 
-  // Limita os dots a 5
   const visibleDots = Math.min(8, media.length);
 
   return (
@@ -57,7 +56,7 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
               <div
                 className="relative h-full min-w-full flex-[0_0_100%] bg-cover"
                 style={{
-                  backgroundImage: `url(${item.src})`, // Usando a URL correta da imagem
+                  backgroundImage: `url(${item.src})`,
                   backgroundSize: 'cover',
                 }}
               />
@@ -66,35 +65,34 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
         </div>
       </div>
 
-      {/* Navegação */}
       <button
         onClick={scrollPrev}
-        className="absolute left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-sm transition-all hover:bg-white"
+        className="absolute left-2 sm:left-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-1.5 sm:p-2 shadow-lg backdrop-blur-sm transition-all hover:bg-white"
         aria-label="Previous image"
       >
-        <ChevronLeft className="h-4 w-4" />
+        <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4" />
       </button>
       <button
         onClick={scrollNext}
-        className="absolute right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-2 shadow-lg backdrop-blur-sm transition-all hover:bg-white"
+        className="absolute right-2 sm:right-4 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-1.5 sm:p-2 shadow-lg backdrop-blur-sm transition-all hover:bg-white"
         aria-label="Next image"
       >
-        <ChevronRight className="h-4 w-4" />
+        <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
       </button>
 
-      {/* Dots */}
       <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2">
         {Array.from({ length: visibleDots }, (_, index) => (
           <button
             key={index}
-            className={`h-1.5 w-1.5 rounded-full bg-white/50 transition-all ${selectedIndex === index ? 'w-3 bg-white' : ''}`}
+            className={`h-1.5 w-1.5 rounded-full transition-all ${
+              selectedIndex === index ? 'w-3 bg-primary' : 'bg-white/50'
+            }`}
             aria-label={`Go to slide ${index + 1}`}
             onClick={() => emblaApi?.scrollTo(index)}
           />
         ))}
       </div>
 
-      {/* Sobreposição de gradiente */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
     </div>
   );

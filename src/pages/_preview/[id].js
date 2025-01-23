@@ -55,12 +55,11 @@ export async function getServerSideProps(context) {
       }
     };
 
-    // Verifica a primeira imagem válida e aplica transformações no Cloudinary
     const validImage = data.imagens?.find((img) => isValidUrl(img)) || placeholderImage;
 
-    // Transformação no Cloudinary para redimensionar e ajustar imagens maiores
+    // Transformação no Cloudinary para redimensionar e comprimir ao máximo
     const imageUrl = validImage.includes("cloudinary.com")
-      ? validImage.replace("upload/", "upload/w_1200,h_630,c_limit,f_auto/")
+      ? validImage.replace("upload/", "upload/w_600,h_315,c_fill,f_auto,q_60/")
       : validImage;
 
     // Adiciona o cachebuster ao appPath

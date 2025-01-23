@@ -135,35 +135,37 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
           </span>
         </div>
 
-        <div className="space-y-4 p-6 rounded-lg bg-white flex flex-col min-h-[400px]">
+        <div className="space-y-4 p-2 rounded-lg bg-white flex flex-col min-h-[400px]">
           <div className="flex flex-col flex-grow">
             <h3 className="text-xl font-semibold text-primary">{titulo}</h3>
             <div className="mt-2 flex items-start text-sm text-gray-600">
-              <MapPin className="mr-2 h-4 w-4 text-[#9C192B]" />
+              <MapPin className="mr-2 h-4 w-4 text-primary" />
               {endereco}
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-4 text-sm">
-              <div className="flex items-center gap-2">
-                <Maximize2 className="h-4 w-4 text-gray-600 text-[#9C192B]" />
-                <span>{metrosQuadrados} m²</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Bed className="h-4 w-4 text-gray-600 text-[#9C192B]" />
-                <span>{quartos} Quartos</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Star className="h-4 w-4 text-gray-600 text-[#9C192B]" />
-                <span>{suites} Suítes</span>
-              </div>
-              <div className="flex items-center gap-2 ">
-                <Bath className="h-4 w-4 text-gray-600 text-[#9C192B]" />
-                <span>{banheiros} Banheiros</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Car className="h-4 w-4 text-gray-600 text-[#9C192B]" />
-                <span>{vagas} Vagas</span>
-              </div>
-            </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-x-0 gap-y-2 text-base 2xl:text-sm md:text-xs sm:grid-cols-2">
+  <div className="flex items-center gap-2">
+    <Maximize2 className="h-4 w-4 text-primary" />
+    <span>{metrosQuadrados} m²</span>
+  </div>
+  <div className="flex items-center gap-2">
+    <Bed className="h-4 w-4 text-primary" />
+    <span>{quartos} Quartos</span>
+  </div>
+  <div className="flex items-center gap-2">
+    <Star className="h-4 w-4 text-primary" />
+    <span>{suites} Suítes</span>
+  </div>
+  <div className="flex items-center gap-2">
+    <Bath className="h-4 w-4 text-primary" />
+    <span>{banheiros} Banheiros</span>
+  </div>
+  <div className="flex items-center gap-2">
+    <Car className="h-4 w-4 text-primary" />
+    <span>{vagas} Vagas</span>
+  </div>
+</div>
+
           </div>
 
           <div className="space-y-2 border-t pt-4 flex-grow">

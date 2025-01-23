@@ -178,13 +178,13 @@ const ImoveisPage = () => {
 
   
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 p-4 min-h-screen">
-      <div className="col-span-1 bg-gray-100 p-4 rounded-lg shadow-md mb-4 md:mb-0">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-0 mx-10 my-10 min-h-screen">
+
         <Filters filters={filters} onFilterChange={setFilters} filtersOptions={filtersOptions} />
-      </div>
+    
 
       <div className="col-span-3 flex flex-col gap-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+        <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
           {currentProperties.length === 0 ? (
             <p>Nenhum imóvel encontrado com os filtros aplicados.</p>
           ) : (

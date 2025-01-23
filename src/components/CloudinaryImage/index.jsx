@@ -13,7 +13,6 @@ const CloudinaryImage = ({
 }) => {
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
-  // Verificação se o Cloudinary Cloud Name está configurado
   if (!cloudName) {
     console.error(
       "Erro: Cloudinary Cloud Name não configurado. Verifique as variáveis de ambiente."
@@ -25,7 +24,6 @@ const CloudinaryImage = ({
     );
   }
 
-  // Verificação se o publicId foi fornecido
   if (!publicId) {
     console.warn("Public ID não fornecido para o componente CloudinaryImage.");
     return (
@@ -39,12 +37,11 @@ const CloudinaryImage = ({
     );
   }
 
-  // Geração do URL do Cloudinary usando publicId
   const cld = new Cloudinary({ cloud: { cloudName } });
   const img = cld
     .image(publicId)
     .format("auto")
-    .quality("auto")
+    .quality("auto:low")
     .resize(auto().gravity(autoGravity()).width(width).height(height));
 
   return (

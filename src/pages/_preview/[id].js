@@ -21,7 +21,8 @@ export default function ImovelPreview({ title, description, image, appPath }) {
       <meta property="og:description" content={description} />
       <meta property="og:image" content={image} />
       <meta property="og:image:type" content="image/jpeg" />
-      
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
       <meta property="og:url" content={`https://mwconsultoriaimobiliaria.com.br${appPath}`} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
@@ -42,13 +43,31 @@ export async function getServerSideProps(context) {
       return { notFound: true }; 
     }
 
+    const placeholderImage = "https://mwconsultoriaimobiliaria.com.br/default-image.jpg";
+
+    // Função para validar URLs
+    const isValidUrl = (url) => {
+      try {
+        new URL(url);
+        return true;
+      } catch {
+        return false;
+      }
+    };
+
+    // Verifica a primeira imagem válida e aplica transformações no Cloudinary
+    const validImage = data.imagens?.find((img) => isValidUrl(img)) || placeholderImage;
+
+    // Transformação no Cloudinary para redimensionar e ajustar imagens maiores
+    const imageUrl = validImage.includes("cloudinary.com")
+      ? validImage.replace("upload/", "upload/w_1200,h_630,c_limit,f_auto/")
+      : validImage;
+
     return {
       props: {
         title: data.nm_titulo || "Imóvel Disponível",
         description: data.ds_descricao || "Veja os detalhes deste imóvel incrível!",
-        image: data.imagens?.[0]
-          ? data.imagens[0].replace("upload/", "upload/w_1200,h_630,c_fill,f_auto/")
-          : "https://mwconsultoriaimobiliaria.com.br/default-image.jpg",
+        image: imageUrl,
         appPath: `/imoveis/${id}`,
       },
     };

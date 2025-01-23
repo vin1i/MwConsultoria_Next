@@ -16,7 +16,7 @@ import {
   TwitterIcon,
   WhatsappIcon,
   LinkedinIcon,
-} from "react-share";
+} from "next-share";
 import { Share2 } from "lucide-react";
 
 interface ShareButtonProps {
@@ -27,46 +27,35 @@ interface ShareButtonProps {
 }
 
 export const ShareButton = ({ id, title, description, image }: ShareButtonProps) => {
-  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`; // Cachebuster para garantir que o preview seja atualizado
+  const frontendUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}/`;
 
   const socialButtons = [
     {
       Component: WhatsappShareButton,
       Icon: WhatsappIcon,
       name: "WhatsApp",
-      props: {
-        url: frontendUrl, 
-       
-      },
+      props: { url: frontendUrl },
       bgHover: "hover:bg-[#25D366]",
     },
     {
       Component: FacebookShareButton,
       Icon: FacebookIcon,
       name: "Facebook",
-      props: { url: frontendUrl },
+      props: { url: frontendUrl, quote: title },
       bgHover: "hover:bg-[#1877F2]",
     },
     {
       Component: TwitterShareButton,
       Icon: TwitterIcon,
       name: "Twitter",
-      props: {
-        url: frontendUrl,
-        title: `${title} - ${description}`, // Combina título e descrição
-      },
+      props: { url: frontendUrl, title },
       bgHover: "hover:bg-[#1DA1F2]",
     },
     {
       Component: LinkedinShareButton,
       Icon: LinkedinIcon,
       name: "LinkedIn",
-      props: {
-        url: frontendUrl,
-        title,
-        summary: description, // Resumo no LinkedIn
-        source: frontendUrl,
-      },
+      props: { url: frontendUrl, title, summary: description, source: frontendUrl },
       bgHover: "hover:bg-[#0A66C2]",
     },
   ];
@@ -103,13 +92,9 @@ export const ShareButton = ({ id, title, description, image }: ShareButtonProps)
                 {...props}
                 className={`rounded-full p-2 transition-all duration-300 
                   transform hover:scale-110 hover:shadow-lg ${bgHover} 
-                  group cursor-pointer `}
+                  group cursor-pointer`}
               >
-                <Icon
-                  size={48}
-                  round
-                  className="group-hover:text-white transition-colors duration-300"
-                />
+                <Icon size={48} round />
               </Component>
               <span className="mt-2 text-sm font-medium text-gray-600">{name}</span>
             </div>

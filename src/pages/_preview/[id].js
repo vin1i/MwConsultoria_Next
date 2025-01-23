@@ -43,34 +43,14 @@ export async function getServerSideProps(context) {
       return { notFound: true }; 
     }
 
-    const placeholderImage = "https://mwconsultoriaimobiliaria.com.br/default-image.jpg";
-
-    // Função para validar URLs
-    const isValidUrl = (url) => {
-      try {
-        new URL(url);
-        return true;
-      } catch {
-        return false;
-      }
-    };
-
-    const validImage = data.imagens?.find((img) => isValidUrl(img)) || placeholderImage;
-
-    // Transformação no Cloudinary para redimensionar e comprimir ao máximo
-    const imageUrl = validImage.includes("cloudinary.com")
-      ? validImage.replace("upload/", "upload/w_600,h_315,c_fill,f_auto,q_60/")
-      : validImage;
-
-    // Adiciona o cachebuster ao appPath
-    const appPath = `/imoveis/${id}?cachebuster=${Date.now()}`;
-
     return {
       props: {
         title: data.nm_titulo || "Imóvel Disponível",
         description: data.ds_descricao || "Veja os detalhes deste imóvel incrível!",
-        image: imageUrl,
-        appPath,
+        image: data.imagens?.[0]
+          ? data.imagens[0].replace("upload/", "upload/w_1200,h_630,c_fill,f_auto/")
+          : "https://mwconsultoriaimobiliaria.com.br/default-image.jpg",
+        appPath: `/imoveis/${id}`,
       },
     };
   } catch (error) {

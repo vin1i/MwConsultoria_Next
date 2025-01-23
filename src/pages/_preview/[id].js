@@ -11,7 +11,7 @@ export default function ImovelPreview({ title, description, image, appPath }) {
     if (!query.from_landing) {
       router.push({ pathname: appPath, query: { from_landing: true } });
     }
-  }, [router]);
+  }, [router, appPath]);
 
   return (
     <Head>
@@ -63,12 +63,15 @@ export async function getServerSideProps(context) {
       ? validImage.replace("upload/", "upload/w_1200,h_630,c_limit,f_auto/")
       : validImage;
 
+    // Adiciona o cachebuster ao appPath
+    const appPath = `/imoveis/${id}?cachebuster=${Date.now()}`;
+
     return {
       props: {
         title: data.nm_titulo || "Imóvel Disponível",
         description: data.ds_descricao || "Veja os detalhes deste imóvel incrível!",
         image: imageUrl,
-        appPath: `/imoveis/${id}`,
+        appPath,
       },
     };
   } catch (error) {

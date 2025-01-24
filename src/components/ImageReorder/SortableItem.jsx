@@ -27,7 +27,6 @@ const SortableItem = ({ id, src, onRemove }) => {
       <button
         type="button"
         onClick={(e) => {
-          e.stopPropagation();
           onRemove(id);
         }}
         className="absolute top-2 right-2 bg-red-500 text-white text-xs px-3 py-2 rounded-md opacity-0 group-hover:opacity-100 

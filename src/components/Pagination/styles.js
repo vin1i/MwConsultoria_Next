@@ -38,4 +38,3 @@ export const PageButton = styled.button`
     text-align: center;
   }
 `;
-

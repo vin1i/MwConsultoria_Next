@@ -24,12 +24,11 @@ const ImoveisPage = () => {
 
   const { setIsLoading, isLoading } = useLoading();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
-
+const [itemsPerPage, setItemsPerPage] = useState(6);
   
   useEffect(() => {
     async function fetchImoveis() {
-      setIsLoading(true); // Definir como verdadeiro enquanto carrega os imóveis
+      setIsLoading(true); 
   
       try {
         const querySnapshot = await getDocs(collection(db, "properties"));
@@ -42,20 +41,20 @@ const ImoveisPage = () => {
       } catch (error) {
         console.error("Erro ao buscar imóveis:", error);
       } finally {
-        // Simulando o tempo de carregamento maior (ex: 3 segundos)
+      
         setTimeout(() => {
-          setIsLoading(false); // Definir como falso quando os dados forem carregados
-        }, 1000); // 3000ms = 3 segundos
+          setIsLoading(false); 
+        }, 1000); // 1000ms = 1 segundos
       }
     }
 
     fetchImoveis();
-  }, [filters, setIsLoading]); // Adicionando `filters` para recarregar sempre que os filtros mudarem
+  }, [filters, setIsLoading]); 
   
 
   const filteredProperties = useMemo(() => {
     const sortedProperties = imoveis.filter((property) => {
-      // Tipo de negócio
+   
       if (filters.tipo) {
         if (
           filters.tipo === "venda" &&
@@ -80,7 +79,7 @@ const ImoveisPage = () => {
         }
       }
 
-      // Filtro de preço
+    
       if (
         (filters.precoMinimo && property.valorVenda < filters.precoMinimo) ||
         (filters.precoMaximo && property.valorVenda > filters.precoMaximo)
@@ -88,7 +87,7 @@ const ImoveisPage = () => {
         return false;
       }
 
-      // Filtro de quartos
+   
       if (filters.quartos && filters.quartos !== "Qualquer") {
         const quartosFilter = Number(filters.quartos.replace("+", ""));
         const quartosProperty = Number(property.quartos);
@@ -101,7 +100,7 @@ const ImoveisPage = () => {
         }
       }
 
-      // Filtro de suítes
+     
       if (filters.suites && filters.suites !== "Qualquer") {
         const suitesFilter = Number(filters.suites.replace("+", ""));
         const suitesProperty = Number(property.suites);
@@ -114,7 +113,7 @@ const ImoveisPage = () => {
         }
       }
 
-      // Filtro de banheiros
+     
       if (filters.banheiros && filters.banheiros !== "Qualquer") {
         const banheirosFilter = Number(filters.banheiros.replace("+", ""));
         const banheirosProperty = Number(property.banheiros);
@@ -127,7 +126,7 @@ const ImoveisPage = () => {
         }
       }
 
-      // Filtro de vagas
+   
       if (filters.vagas && filters.banheiros !== "Qualquer") {
         const vagasFilter = Number(filters.vagas.replace("+", ""));
         const vagasProperty = Number(property.vagas);
@@ -146,7 +145,7 @@ const ImoveisPage = () => {
       
     .sort((a, b) => a.valorVenda - b.valorVenda);
 
-      // Ordenação por filtros
+   
     if (filters.ordenacaoVenda === "asc") {
       return sortedProperties.sort((a, b) => a.valorVenda - b.valorVenda);
     }
@@ -166,11 +165,33 @@ const ImoveisPage = () => {
       return sortedProperties.sort((a, b) => b.vlCondominio - a.vlCondominio);
     }
 
-    return sortedProperties; // Retorna sem ordenação se nenhum filtro for aplicado
+    return sortedProperties; 
   }, [imoveis, filters]);
 
   const totalPages = Math.ceil(filteredProperties.length / itemsPerPage);
 
+  useEffect(() => {
+    const updateItemsPerPage = () => {
+      const width = window.innerWidth;
+      if (width < 640) {
+        setItemsPerPage(3); // Telas menores (ex: smartphones)
+      } else if (width < 1024) {
+        setItemsPerPage(4); // Telas médias (ex: tablets)
+      } else {
+        setItemsPerPage(6); // Telas maiores (ex: desktops)
+      }
+    };
+  
+    // Atualizar quando o componente for montado
+    updateItemsPerPage();
+  
+    // Listener para mudanças no tamanho da janela
+    window.addEventListener("resize", updateItemsPerPage);
+  
+    // Cleanup para evitar problemas de performance
+    return () => window.removeEventListener("resize", updateItemsPerPage);
+  }, []);
+  
   const currentProperties = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return filteredProperties.slice(startIndex, startIndex + itemsPerPage);

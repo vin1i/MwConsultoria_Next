@@ -16,6 +16,14 @@
       max-width: 100%; /* Responsivo em telas menores */
       padding: 1.5rem 1rem;
       display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+    }
+
+     @media (max-width: 425px) {
+      max-width: 100%; /* Responsivo em telas menores */
+      padding: 1.5rem 1rem;
+      display: flex;
       flex-direction: column-reverse;
       gap: 0.8rem;
     }

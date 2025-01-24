@@ -48,7 +48,7 @@ const Message = styled.p`
 `;
 
 function PropertyPage() {
-  const { isAuthenticated, user } = useAuth(); // Verifica se o usuário está autenticado
+  const { isAuthenticated, user } = useAuth(); 
   const router = useRouter();
   const [imoveis, setImoveis] = useState([]);
   const [selectedProperty, setSelectedProperty] = useState(null);
@@ -56,8 +56,7 @@ function PropertyPage() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log("isAuthenticated:", isAuthenticated);
-    console.log("Usuário logado:", user);
+
     if (!isAuthenticated) {
       router.push("/login");
     } else {

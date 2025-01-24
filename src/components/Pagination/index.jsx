@@ -7,8 +7,32 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
       ? onPageChange(page)
       : null;
 
+  const getVisiblePages = () => {
+    const pages = [];
+
+    // Sempre mostra a página atual e a próxima
+    if (currentPage < totalPages) {
+      pages.push(currentPage, currentPage + 1);
+    }
+
+    // Garante que o ponto "..." aparece entre as páginas visíveis e a última
+    if (currentPage + 1 < totalPages - 1) {
+      pages.push("...");
+    }
+
+    // Adiciona a última página se não for a atual ou a próxima
+    if (currentPage + 1 < totalPages) {
+      pages.push(totalPages);
+    }
+
+    return pages;
+  };
+
+  const visiblePages = getVisiblePages();
+
   return (
     <PaginationContainer>
+      {/* Botão anterior */}
       <PageButton
         disabled={currentPage === 1}
         onClick={() => handlePageChange(currentPage - 1)}
@@ -17,10 +41,9 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
         Anterior
       </PageButton>
 
-      {/* Limita o número de páginas exibidas, mostrando apenas um intervalo */}
-      {Array.from({ length: totalPages }, (_, i) => {
-        const page = i + 1;
-        return (
+      {/* Botões das páginas */}
+      {visiblePages.map((page, index) => (
+        typeof page === "number" ? (
           <PageButton
             key={page}
             $isActive={currentPage === page}
@@ -29,9 +52,14 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
           >
             {page}
           </PageButton>
-        );
-      })}
+        ) : (
+          <span key={`ellipsis-${index}`} style={{ margin: "0 8px" }}>
+            ...
+          </span>
+        )
+      ))}
 
+      {/* Botão próximo */}
       <PageButton
         disabled={currentPage === totalPages}
         onClick={() => handlePageChange(currentPage + 1)}

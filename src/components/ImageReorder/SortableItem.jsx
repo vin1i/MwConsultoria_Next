@@ -20,14 +20,18 @@ const SortableItem = ({ id, src, onRemove }) => {
       className="relative group cursor-pointer border border-gray-300 rounded-lg shadow-sm overflow-hidden"
     >
       <img
-        src={src} // Garante que `src` contém a URL correta
+        src={src}
         alt="Imagem do imóvel"
         className="w-full h-32 object-cover group-hover:opacity-90"
       />
       <button
         type="button"
-        onClick={() => onRemove(id)}
-        className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-md opacity-0 group-hover:opacity-100"
+        onClick={(e) => {
+          e.stopPropagation();
+          onRemove(id);
+        }}
+        className="absolute top-2 right-2 bg-red-500 text-white text-xs px-3 py-2 rounded-md opacity-0 group-hover:opacity-100 
+          transition-all duration-200 ease-in-out transform hover:scale-105 hover:bg-red-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-600"
       >
         Remover
       </button>

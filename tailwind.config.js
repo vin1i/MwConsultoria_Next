@@ -28,7 +28,7 @@ const config = {
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#F1F1F1",
+          DEFAULT: "#6B0D1A",
           foreground: "#222222",
         },
         card: {

@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useAuth } from "../../../context/AppContext";
-import CadastroImovel from "../components/CadastroImovel";
+import CadastroProperty from "../components/CadastroProperty";
 
 const Container = styled.div`
   max-width: 1200px;
@@ -123,7 +123,7 @@ function PropertyPage() {
       <Header>Gerenciamento de Imóveis</Header>
       <Button onClick={() => setShowForm(true)}>Adicionar Imóvel</Button>
       {showForm && (
-        <CadastroImovel
+        <PropertyForm
           existingProperty={selectedProperty}
           onSave={(updatedProperty) => {
             selectedProperty

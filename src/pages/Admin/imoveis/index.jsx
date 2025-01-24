@@ -11,7 +11,7 @@ import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import { useAuth } from "../../../context/AppContext";
-import CadastroProperty from "../components/CadastroProperty";
+
 
 const Container = styled.div`
   max-width: 1200px;

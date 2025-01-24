@@ -36,7 +36,10 @@ export const uploadImagesToCloudinary = async (files) => {
 };
 
 const applyWatermark = (url) => {
-  const transformation = `l_opreb9q06mnwbxsqkkey,g_north_east,x_20,y_20,w_150`;
+  // Define a transformação para redimensionar e adicionar marca d'água
+  const transformation = `c_scale,w_1200,q_auto,f_auto/l_opreb9q06mnwbxsqkkey,g_north_east,x_20,y_20,w_150`;
   const parts = url.split("/upload/");
   return `${parts[0]}/upload/${transformation}/${parts[1]}`;
 };
+
+

@@ -39,15 +39,15 @@ const CloudinaryImage = ({
 
   const cld = new Cloudinary({ cloud: { cloudName } });
   const img = cld
-    .image(publicId)
-    .format("auto")
-    .quality("auto:low")
-    .resize(auto().gravity(autoGravity()).width(width).height(height));
+  .image(publicId)
+  .format("auto") 
+  .quality("auto:low") 
+  .resize(auto().width(1200).height(630).crop("fill"));
 
   return (
     <AdvancedImage
       cldImg={img}
-      alt={alt}
+      alt={alt} 
       style={{
         width: typeof width === "string" ? width : `${width}px`,
         height: typeof height === "string" ? height : `${height}px`,

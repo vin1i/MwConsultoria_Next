@@ -1,4 +1,4 @@
-import { db } from "./firebase/firebaseConfig";
+import { db } from "../services/firebase/firebaseConfig";
 import {
   collection,
   addDoc,
@@ -7,19 +7,29 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
-import { uploadImagesToCloudinary } from "./CloudinaryService/index";
+import { uploadImagesToCloudinary } from "../services/CloudinaryService/index";
 
 const propertyCollection = collection(db, "properties");
 
 export const addProperty = async (propertyData) => {
   try {
-    const imagePublicIds = propertyData.imagens
-      ? await uploadImagesToCloudinary(propertyData.imagens)
+    // Filtra as imagens que são instâncias de File para upload
+    const imagesToUpload = propertyData.imagens.filter((img) => img instanceof File);
+
+    // Faz upload das imagens ao Cloudinary
+    const uploadedImageUrls = imagesToUpload.length
+      ? await uploadImagesToCloudinary(imagesToUpload)
       : [];
+
+    // Combina as imagens já existentes (URLs) com as novas imagens enviadas ao Cloudinary
+    const allImageUrls = [
+      ...propertyData.imagens.filter((img) => typeof img === "string"),
+      ...uploadedImageUrls,
+    ];
 
     const newPropertyData = {
       ...propertyData,
-      fotos: imagePublicIds,
+      imagens: allImageUrls, // Atualiza com todas as URLs de imagens
       vlCondominio: propertyData.vlCondominio || 0,
       vlIptu: propertyData.vlIptu || 0,
       valorVenda: propertyData.valorVenda || 0,
@@ -59,7 +69,6 @@ export const getImoveis = async () => {
         imagens: data.imagens || [],
         videos: data.videos || [],
         dt_criacao: data.dt_criacao || "",
-        vlCondominio: doc.data().vlCondominio || 0,
       };
     });
     return imoveis;
@@ -72,6 +81,7 @@ export const getImoveis = async () => {
 export const updateImovel = async (id, updatedData) => {
   try {
     const propertyRef = doc(db, "properties", id);
+
     const updatedPropertyData = {
       ...updatedData,
       vlCondominio: updatedData.vlCondominio || 0,
@@ -89,10 +99,8 @@ export const updateImovel = async (id, updatedData) => {
 
 export const deleteImovel = async (id) => {
   try {
-
     const propertyRef = doc(db, "properties", id);
     await deleteDoc(propertyRef);
-
   } catch (error) {
     console.error("Erro ao deletar imóvel:", error.message);
     throw error;

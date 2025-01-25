@@ -12,17 +12,17 @@ import {
 import filtersOptions from "@/data/FiltersOptions";
 
 const Filters = ({ filters, onFilterChange }) => {
-  const [priceRange, setPriceRange] = useState([0, 20000000]);
-  const [tempPriceRange, setTempPriceRange] = useState([0, 20000000]);
+  const [priceRange, setPriceRange] = useState([0, 500000000]);
+  const [tempPriceRange, setTempPriceRange] = useState([0, 500000000]);
 
-  // Resetando os filtros para os valores padrões ao montar o componente
+  
   useEffect(() => {
-    setPriceRange([0, 20000000]);
-    setTempPriceRange([0, 20000000]);
+    setPriceRange([0, 500000000]);
+    setTempPriceRange([0, 500000000]);
     onFilterChange({
       ...filters,
       precoMinimo: 0,
-      precoMaximo: 20000000,
+      precoMaximo: 500000000,
       ordenacaoVenda: "",
       ordenacaoLocacao: "",
       ordenacaoOutros: "",
@@ -58,11 +58,11 @@ const Filters = ({ filters, onFilterChange }) => {
 
     if (updatedRange[0] === "" || updatedRange[1] === "") {
       updatedRange[0] = 0;
-      updatedRange[1] = 20000000;
+      updatedRange[1] = 500000000;
     }
 
-    updatedRange[0] = Math.max(0, Math.min(20000000, updatedRange[0]));
-    updatedRange[1] = Math.max(0, Math.min(20000000, updatedRange[1]));
+    updatedRange[0] = Math.max(0, Math.min(500000000, updatedRange[0]));
+    updatedRange[1] = Math.max(0, Math.min(500000000, updatedRange[1]));
 
     if (updatedRange[0] > updatedRange[1]) {
       if (index === 0) updatedRange[1] = updatedRange[0];
@@ -115,7 +115,7 @@ const handleSortChange = (e, type) => {
           <Slider
             range
             min={0}
-            max={20000000}
+            max={500000000}
             step={10000}
             value={priceRange}
             onChange={handleRangeChange}

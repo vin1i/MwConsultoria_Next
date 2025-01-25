@@ -44,7 +44,7 @@ const [itemsPerPage, setItemsPerPage] = useState(6);
       
         setTimeout(() => {
           setIsLoading(false); 
-        }, 1000); // 1000ms = 1 segundos
+        }, 1000); 
       }
     }
 
@@ -174,21 +174,20 @@ const [itemsPerPage, setItemsPerPage] = useState(6);
     const updateItemsPerPage = () => {
       const width = window.innerWidth;
       if (width < 640) {
-        setItemsPerPage(3); // Telas menores (ex: smartphones)
+        setItemsPerPage(3); // Telas menores (smartphones)
       } else if (width < 1024) {
-        setItemsPerPage(4); // Telas médias (ex: tablets)
+        setItemsPerPage(4); // Telas médias (tablets)
       } else {
-        setItemsPerPage(6); // Telas maiores (ex: desktops)
+        setItemsPerPage(6); // Telas maiores (desktops)
       }
     };
   
-    // Atualizar quando o componente for montado
     updateItemsPerPage();
   
-    // Listener para mudanças no tamanho da janela
+    
     window.addEventListener("resize", updateItemsPerPage);
   
-    // Cleanup para evitar problemas de performance
+    
     return () => window.removeEventListener("resize", updateItemsPerPage);
   }, []);
   

@@ -1,11 +1,10 @@
-/* src/styles/globals.css (ou src/styles/tailwind.css, dependendo de como você nomeia o arquivo) */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
   :root {
-    --radius: 0.7rem;  /* ou outro valor de sua preferência */
+    --radius: 0.7rem; 
   }
 }
 

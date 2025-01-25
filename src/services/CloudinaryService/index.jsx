@@ -24,7 +24,7 @@ export const uploadImagesToCloudinary = async (files) => {
 
       const data = await response.json();
 
-      // Adiciona a transformação para marca d'água
+      // marca d'água
       return applyWatermark(data.secure_url);
     } catch (error) {
       console.error("Erro ao fazer upload para o Cloudinary:", error);
@@ -36,7 +36,7 @@ export const uploadImagesToCloudinary = async (files) => {
 };
 
 const applyWatermark = (url) => {
-  // Define a transformação para redimensionar e adicionar marca d'água
+  // redimensionamento das imagens e marca d'água
   const transformation = `c_scale,w_1200,q_auto,f_auto/l_opreb9q06mnwbxsqkkey,g_north_east,x_20,y_20,w_150`;
   const parts = url.split("/upload/");
   return `${parts[0]}/upload/${transformation}/${parts[1]}`;

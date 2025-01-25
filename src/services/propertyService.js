@@ -13,15 +13,15 @@ const propertyCollection = collection(db, "properties");
 
 export const addProperty = async (propertyData) => {
   try {
-    // Filtra as imagens que são instâncias de File para upload
+ 
     const imagesToUpload = propertyData.imagens.filter((img) => img instanceof File);
 
-    // Faz upload das imagens ao Cloudinary
+   
     const uploadedImageUrls = imagesToUpload.length
       ? await uploadImagesToCloudinary(imagesToUpload)
       : [];
 
-    // Combina as imagens já existentes (URLs) com as novas imagens enviadas ao Cloudinary
+   
     const allImageUrls = [
       ...propertyData.imagens.filter((img) => typeof img === "string"),
       ...uploadedImageUrls,
@@ -29,7 +29,7 @@ export const addProperty = async (propertyData) => {
 
     const newPropertyData = {
       ...propertyData,
-      imagens: allImageUrls, // Atualiza com todas as URLs de imagens
+      imagens: allImageUrls, 
       vlCondominio: propertyData.vlCondominio || 0,
       vlIptu: propertyData.vlIptu || 0,
       valorVenda: propertyData.valorVenda || 0,
@@ -121,7 +121,6 @@ export const loadProperties = async () => {
     const response = await fetch("/api/properties");
     const properties = await response.json();
 
-    // Normaliza as imagens de todas as propriedades
     return properties.map((property) => ({
       ...property,
       imagens: normalizeImageUrls(property.imagens || []),

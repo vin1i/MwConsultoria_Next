@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { toast } from "react-toastify";
 import { useAuth } from "../../context/AppContext"; // Ajuste conforme seu contexto
+import Head from "next/head";
 
 const LoginContainer = styled.div`
   display: flex;
@@ -125,6 +126,25 @@ const Login = () => {
   };
 
   return (
+    <>  
+    <Head>
+
+     
+    <title>MW Consultoria Imobiliária - Encontre o imóvel ideal</title>
+    <meta name="description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+    <meta property="og:title" content="MW Consultoria Imobiliária - Encontre o imóvel ideal" />
+    <meta property="og:description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+    <meta property="og:image" content="https://mwconsultoriaimobiliaria.com.br/default-image.jpg" />
+    <meta property="og:url" content="https://mwconsultoriaimobiliaria.com.br/login" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MW Consultoria Imobiliária - Encontre o imóvel ideal" />
+    <meta name="twitter:description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+    <meta name="twitter:image" content="https://mwconsultoriaimobiliaria.com.br/default-image.jpg" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://mwconsultoriaimobiliaria.com.br/login" />
+  </Head>
+
     <LoginContainer>
       <LoginForm onSubmit={handleSubmit}>
         <h2>Bem-vindo!</h2>
@@ -158,6 +178,7 @@ const Login = () => {
         )}
       </LoginForm>
     </LoginContainer>
+    </>
   );
 };
 

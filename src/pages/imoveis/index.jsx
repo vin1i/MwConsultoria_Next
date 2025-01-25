@@ -5,9 +5,8 @@ import RealEstateCard from "@/components/Card/RealEstateCard";
 import Pagination from "@/components/Pagination";
 import Filters from "@/components/Filters";
 import { useLoading } from "@/context/LoadingContext";
-import { getImoveis } from "@/services/firebase/firestoreService";
-import { normalizeValues } from "@/utils/utils";
 import filtersOptions from "@/data/FiltersOptions";
+import Head from "next/head";
 
 const cloudinaryCloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 const cloudinaryBaseUrl = `https://res.cloudinary.com/${cloudinaryCloudName}`;
@@ -198,6 +197,26 @@ const [itemsPerPage, setItemsPerPage] = useState(6);
 
   
   return (
+
+    <>
+    <Head>
+
+     
+    <title>MW Consultoria Imobiliária - Encontre o imóvel ideal</title>
+    <meta name="description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+    <meta property="og:title" content="MW Consultoria Imobiliária - Encontre o imóvel ideal" />
+    <meta property="og:description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+    <meta property="og:image" content="https://mwconsultoriaimobiliaria.com.br/default-image.jpg" />
+    <meta property="og:url" content="https://mwconsultoriaimobiliaria.com.br/imoveis" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MW Consultoria Imobiliária - Encontre o imóvel ideal" />
+    <meta name="twitter:description" content="Bem-vindo à MW Consultoria Imobiliária. Encontre os melhores imóveis para compra e locação." />
+    <meta name="twitter:image" content="https://mwconsultoriaimobiliaria.com.br/default-image.jpg" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://mwconsultoriaimobiliaria.com.br/imoveis" />
+  </Head>
+
     <div className="grid grid-cols-1 md:grid-cols-4 gap-0 mx-10 my-10 min-h-screen">
 
         <Filters filters={filters} onFilterChange={setFilters} filtersOptions={filtersOptions} />
@@ -252,6 +271,7 @@ const [itemsPerPage, setItemsPerPage] = useState(6);
         )}
       </div>
     </div>
+    </>
   );
 };
 

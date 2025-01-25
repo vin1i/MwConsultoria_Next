@@ -135,7 +135,7 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
           </span>
         </div>
 
-        <div className="space-y-4 py-4 px-0 rounded-lg bg-white flex flex-col min-h-[400px]">
+        <div className="space-y-4 py-4 sm:px-2 px-4 rounded-lg bg-white flex flex-col min-h-[400px]">
           <div className="flex flex-col flex-grow">
             <h3 className="text-xl font-semibold text-primary">{titulo}</h3>
             <div className="mt-2 flex items-start text-sm text-gray-600">

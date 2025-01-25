@@ -85,8 +85,14 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
           <button
             key={index}
             className={`h-1.5 w-1.5 rounded-full transition-all ${
-              selectedIndex === index ? 'w-3 bg-primary' : 'bg-white/50'
+              selectedIndex === index ? 'w-3 h-3 bg-primary' : 'bg-white/50'
             }`}
+            style={{
+              width: '10px',
+              height: '10px', 
+              minWidth: '10px',
+              minHeight: '10px',
+            }}
             aria-label={`Go to slide ${index + 1}`}
             onClick={() => emblaApi?.scrollTo(index)}
           />

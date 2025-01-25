@@ -48,7 +48,7 @@ const nextConfig = withTM({
   },
 
   async rewrites() {
-    const destinationHost = "https://mwconsultoriaimobiliaria.com.br";
+    const destinationHost = "https://mwconsultoriaimobiliaria.com.br" || "https://mwconsultoriaimobiliaria.com.br/imoveis" || "https://mwconsultoriaimobiliaria.com.br/login";
 
     return [
       // Todas as rotas da LP

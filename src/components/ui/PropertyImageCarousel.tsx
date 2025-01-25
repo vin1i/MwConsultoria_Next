@@ -12,6 +12,8 @@ interface PropertyImageCarouselProps {
 const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = React.useState(0);
+  const [dotStartIndex, setDotStartIndex] = React.useState(0);
+  const DOTS_PER_PAGE = 8;
 
   const scrollPrev = React.useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -23,8 +25,17 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
 
   const onSelect = React.useCallback(() => {
     if (!emblaApi) return;
-    setSelectedIndex(emblaApi.selectedScrollSnap());
-  }, [emblaApi]);
+    const newIndex = emblaApi.selectedScrollSnap();
+    setSelectedIndex(newIndex);
+    
+ 
+    const currentDotPage = Math.floor(dotStartIndex / DOTS_PER_PAGE);
+    const newDotPage = Math.floor(newIndex / DOTS_PER_PAGE);
+    
+    if (currentDotPage !== newDotPage) {
+      setDotStartIndex(newDotPage * DOTS_PER_PAGE);
+    }
+  }, [emblaApi, dotStartIndex]);
 
   React.useEffect(() => {
     if (!emblaApi) return;
@@ -45,7 +56,7 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
     );
   }
 
-  const visibleDots = Math.min(8, media.length);
+  const visibleDots = Math.min(DOTS_PER_PAGE, media.length - dotStartIndex);
 
   return (
     <div className="relative h-[240px] w-full overflow-hidden rounded-sm">
@@ -80,17 +91,46 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
         <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
       </button>
 
-      <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-1 sm:gap-2">
-        {Array.from({ length: visibleDots }, (_, index) => (
+      <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-1">
+        {media.length > DOTS_PER_PAGE && dotStartIndex > 0 && (
           <button
-            key={index}
-            className={`h-0.5 w-0.5 sm:h-1.5 sm:w-1.5 rounded-full transition-all ${
-              selectedIndex === index ? 'w-1 sm:w-3 bg-primary' : 'bg-white/50'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-            onClick={() => emblaApi?.scrollTo(index)}
-          />
-        ))}
+            onClick={() => setDotStartIndex(Math.max(0, dotStartIndex - DOTS_PER_PAGE))}
+            className="group relative p-1.5 transition-all"
+            aria-label="Previous dots page"
+          >
+            <span className="block h-1.5 w-1.5 rounded-full transition-all bg-white/40 scale-75 group-hover:scale-100 group-hover:bg-white/60" />
+          </button>
+        )}
+        
+        {Array.from({ length: visibleDots }, (_, index) => {
+          const actualIndex = dotStartIndex + index;
+          return (
+            <button
+              key={actualIndex}
+              className={`group relative p-1.5 transition-all ${
+                selectedIndex === actualIndex ? 'scale-110' : ''
+              }`}
+              aria-label={`Go to slide ${actualIndex + 1}`}
+              onClick={() => emblaApi?.scrollTo(actualIndex)}
+            >
+              <span className={`block h-1.5 w-1.5 rounded-full transition-all ${
+                selectedIndex === actualIndex 
+                  ? 'bg-white scale-100' 
+                  : 'bg-white/40 scale-75 group-hover:scale-100 group-hover:bg-white/60'
+              }`} />
+            </button>
+          );
+        })}
+
+        {media.length > DOTS_PER_PAGE && dotStartIndex + DOTS_PER_PAGE < media.length && (
+          <button
+            onClick={() => setDotStartIndex(Math.min(media.length - DOTS_PER_PAGE, dotStartIndex + DOTS_PER_PAGE))}
+            className="group relative p-1.5 transition-all"
+            aria-label="Next dots page"
+          >
+            <span className="block h-1.5 w-1.5 rounded-full transition-all bg-white/40 scale-75 group-hover:scale-100 group-hover:bg-white/60" />
+          </button>
+        )}
       </div>
 
       <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />

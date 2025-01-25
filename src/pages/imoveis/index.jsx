@@ -204,7 +204,7 @@ const [itemsPerPage, setItemsPerPage] = useState(6);
     
 
       <div className="col-span-3 flex flex-col gap-4">
-        <div className="grid justify-items-center grid-cols-1 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
+        <div className="grid justify-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4">
           {currentProperties.length === 0 ? (
             <p>Nenhum imóvel encontrado com os filtros aplicados.</p>
           ) : (

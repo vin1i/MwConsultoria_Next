@@ -4,7 +4,8 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1rem 1rem; /* Aumenta padding lateral */
+    padding: 1rem 1rem; 
+    margin: 1rem -1rem;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
@@ -15,6 +16,7 @@
     @media (max-width: 768px) {
       max-width: 100%; /* Responsivo em telas menores */
       padding: 1.5rem 1rem;
+      margin: 1rem 0rem;
       display: flex;
       flex-direction: column;
       gap: 0.8rem;

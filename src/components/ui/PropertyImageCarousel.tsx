@@ -13,7 +13,7 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
   const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true });
   const [selectedIndex, setSelectedIndex] = React.useState(0);
   const [dotStartIndex, setDotStartIndex] = React.useState(0);
-  const DOTS_PER_PAGE = 8;
+  const DOTS_PER_PAGE = 5;
 
   const scrollPrev = React.useCallback(() => {
     if (emblaApi) emblaApi.scrollPrev();
@@ -28,7 +28,6 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
     const newIndex = emblaApi.selectedScrollSnap();
     setSelectedIndex(newIndex);
     
- 
     const currentDotPage = Math.floor(dotStartIndex / DOTS_PER_PAGE);
     const newDotPage = Math.floor(newIndex / DOTS_PER_PAGE);
     

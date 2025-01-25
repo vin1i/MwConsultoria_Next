@@ -114,7 +114,7 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
             >
               <span className={`block h-1.5 w-1.5 rounded-full transition-all ${
                 selectedIndex === actualIndex 
-                  ? 'bg-white scale-100' 
+                  ? 'bg-primary scale-100' 
                   : 'bg-white/40 scale-75 group-hover:scale-100 group-hover:bg-white/60'
               }`} />
             </button>

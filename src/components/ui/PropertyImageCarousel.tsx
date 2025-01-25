@@ -80,19 +80,13 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
         <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4" />
       </button>
 
-      <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+      <div className="absolute bottom-4 left-1/2 z-20 flex -translate-x-1/2 gap-1 sm:gap-2">
         {Array.from({ length: visibleDots }, (_, index) => (
           <button
             key={index}
-            className={`h-1.5 w-1.5 rounded-full transition-all ${
-              selectedIndex === index ? 'w-3 h-3 bg-primary' : 'bg-white/50'
+            className={`h-1 w-1 sm:h-1.5 sm:w-1.5 rounded-full transition-all ${
+              selectedIndex === index ? 'w-2 sm:w-3 bg-primary' : 'bg-white/50'
             }`}
-            style={{
-              width: '10px',
-              height: '10px', 
-              minWidth: '10px',
-              minHeight: '10px',
-            }}
             aria-label={`Go to slide ${index + 1}`}
             onClick={() => emblaApi?.scrollTo(index)}
           />

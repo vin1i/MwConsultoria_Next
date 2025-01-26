@@ -5,7 +5,6 @@ import {
   Container,
   Logo,
   Menu,
-  SocialLinks,
   BottomNav,
   BottomNavItem,
 } from "./styles";
@@ -21,6 +20,7 @@ import {
   FaPhoneAlt,
 } from "react-icons/fa";
 import Image from "next/image";
+import { SocialMedia } from "../Footer/styles";
 const Header = () => {
   return (
     <Container>
@@ -61,36 +61,36 @@ const Header = () => {
         </ul>
       </Menu>
 
-      <SocialLinks>
-        <a
-          href="https:/www.instagram.com/consultoramarisawebber?igsh=MThsY29nYmhqbXgybA=="
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaInstagram size={25} />
-        </a>
-        <a
-          href="https:/www.facebook.com/Marisa.Webber"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaFacebookSquare size={25} />
-        </a>
-        <a
-          href="https:/api.whatsapp.com/send?phone=5511973738808"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaWhatsapp size={25} />
-        </a>
-        <a
-          href="https:/www.linkedin.com/in/marisa-webber-377980329?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <FaLinkedin size={25} />
-        </a>
-      </SocialLinks>
+<SocialMedia>
+            <a
+              href="https://www.instagram.com/consultoramarisawebber?igsh=MThsY29nYmhqbXgybA=="
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaInstagram />
+            </a>
+            <a
+              href="https://www.facebook.com/Marisa.Webber"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaFacebookSquare />
+            </a>
+            <a
+              href="https://api.whatsapp.com/send?phone=5511973738808"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaWhatsapp />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/marisa-webber-377980329?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <FaLinkedin />
+            </a>
+          </SocialMedia>
 
       <BottomNav>
         <BottomNavItem>

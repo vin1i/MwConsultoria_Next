@@ -568,7 +568,7 @@ const handleDragEnd = (event) => {
               Cancelar
             </Button>
             <Button type="submit" disabled={isSaving}>
-              {isSaving ? "Saving..." : existingProperty ? "Save Changes" : "Cadastrar Propriedade"}
+              {isSaving ? "Salvando..." : existingProperty ? "Salvar Alterações" : "Cadastrar Propriedade"}
             </Button>
           </div>
         </form>

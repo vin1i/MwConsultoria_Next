@@ -16,21 +16,34 @@ const SortableItem = ({ id, src, onRemove }) => {
       ref={setNodeRef}
       style={style}
       {...attributes}
-      {...listeners}
       className="relative group cursor-pointer border border-gray-300 rounded-lg shadow-sm overflow-hidden"
     >
-      <img
-        src={src}
-        alt="Imagem do imóvel"
-        className="w-full h-32 object-cover group-hover:opacity-90"
-      />
+      {/* Elemento de arrasto - adicionamos os listeners apenas na imagem */}
+      <div {...listeners} className="h-full">
+        <img
+          src={src}
+          alt="Imagem do imóvel"
+          className="w-full h-32 object-cover group-hover:opacity-90"
+        />
+      </div>
+
+      {/* Botão de remover com prevenção de propagação de eventos */}
       <button
         type="button"
         onClick={(e) => {
+          e.stopPropagation(); // Impede a propagação do evento
+          e.preventDefault();  // Previne comportamento padrão
+          onRemove(id);
+        }}
+        onTouchEnd={(e) => {
+          e.stopPropagation();
+          e.preventDefault();
           onRemove(id);
         }}
         className="absolute top-2 right-2 bg-red-500 text-white text-xs px-3 py-2 rounded-md opacity-0 group-hover:opacity-100 
-          transition-all duration-200 ease-in-out transform hover:scale-105 hover:bg-red-600 active:scale-95 focus:outline-none focus:ring-2 focus:ring-red-600"
+          transition-all duration-200 ease-in-out transform hover:scale-105 hover:bg-red-600 active:scale-95 focus:outline-none 
+          focus:ring-2 focus:ring-red-600 z-10" // Adicionado z-10 para prioridade
+        style={{ touchAction: 'none' }} // Importante para dispositivos touch
       >
         Remover
       </button>

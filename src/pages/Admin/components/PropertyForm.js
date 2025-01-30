@@ -1,3 +1,21 @@
+const InputGroupCustom = styled.div`
+  margin-bottom: 20px;
+`;
+
+const LabelCustom = styled.label`
+  display: block;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
+`;
+const SelectCustom = styled.select`
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+`;
+
 import React, { useState, useEffect } from "react";
 import { uploadImagesToCloudinary } from "../../../services/CloudinaryService/index";
 import styled from "styled-components";
@@ -57,17 +75,6 @@ const PropertyForm = ({ existingProperty, onSave }) => {
   const [previewImages, setPreviewImages] = useState([]);
   const [error, setError] = useState(null);
 
-  const normalizeImages = (images) => {
-    return images.map((img) => {
-      if (typeof img === "string") {
-        // Extrai o public_id da URL do Cloudinary
-        const publicId = img.split("/").slice(-1)[0].split(".")[0];
-        return { id: publicId, src: img };
-      }
-      return img;
-    });
-  };
-
   useEffect(() => {
     if (existingProperty) {
       setFormData((prev) => ({
@@ -93,14 +100,6 @@ const PropertyForm = ({ existingProperty, onSave }) => {
             })}`
           : "",
       }));
-
-      const formattedData = {
-        ...existingProperty,
-        imagens: normalizeImages(existingProperty.imagens),
-      };
-
-      setFormData(formattedData);
-      setPreviewImages(formattedData.imagens);
     }
   }, [existingProperty]);
 
@@ -114,48 +113,13 @@ const PropertyForm = ({ existingProperty, onSave }) => {
 
   const fileInputRef = React.useRef(null);
 
-  const handleFileChange = async (e) => {
+  const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
-    const uploadedImages = [];
-
-    for (const file of files) {
-      const formDataCloudinary = new FormData();
-      formDataCloudinary.append("file", file);
-      formDataCloudinary.append(
-        "upload_preset",
-        process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET
-      );
-
-      try {
-        const response = await fetch(
-          `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`,
-          {
-            method: "POST",
-            body: formDataCloudinary,
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            `Erro ${response.status}: Não autorizado. Verifique suas credenciais.`
-          );
-        }
-
-        const data = await response.json();
-        uploadedImages.push({
-          id: data.public_id,
-          src: data.secure_url,
-        });
-      } catch (error) {
-        console.error("Erro ao fazer upload:", error);
-        toast.error("Erro ao fazer upload da imagem");
-      }
-    }
-
-    setPreviewImages((prev) => [...prev, ...uploadedImages]);
+    const newPreviews = files.map((file) => URL.createObjectURL(file));
+    setPreviewImages((prev) => [...prev, ...newPreviews]);
     setFormData((prev) => ({
       ...prev,
-      imagens: [...prev.imagens, ...uploadedImages],
+      imagens: [...prev.imagens, ...files],
     }));
   };
 
@@ -206,29 +170,13 @@ const PropertyForm = ({ existingProperty, onSave }) => {
     return url.startsWith("http") || url.startsWith("blob:");
   };
 
-  const handleRemoveImage = async (imageId) => {
-    try {
-      // Exclui a imagem do Cloudinary
-      await fetch(
-        `https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/destroy`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ public_id: imageId }),
-        }
-      );
-
-      // Atualiza o estado corretamente removendo apenas a imagem específica
-      setPreviewImages((prev) => prev.filter((img) => img.id !== imageId));
-      setFormData((prev) => ({
-        ...prev,
-        imagens: prev.imagens.filter((img) => img.id !== imageId),
-      }));
-    } catch (error) {
-      console.error("Erro ao remover imagem:", error);
-    }
+  const handleRemoveImage = (imageToDelete) => {
+    const imageIndex = previewImages.indexOf(imageToDelete);
+    setPreviewImages((prev) => prev.filter((img) => img !== imageToDelete));
+    setFormData((prev) => ({
+      ...prev,
+      imagens: prev.imagens.filter((_, index) => index !== imageIndex),
+    }));
   };
 
   const parseCurrency = (value) => {
@@ -283,17 +231,23 @@ const PropertyForm = ({ existingProperty, onSave }) => {
   const handleDragEnd = (event) => {
     const { active, over } = event;
 
-    if (!active || !over || active.id === over.id) return;
+    // Verifica se active ou over são nulos
+    if (!active || !over || active.id === over.id) {
+      return;
+    }
 
-    const oldIndex = previewImages.findIndex((img) => img.id === active.id);
-    const newIndex = previewImages.findIndex((img) => img.id === over.id);
+    const oldIndex = previewImages.findIndex((img) => img === active.id);
+    const newIndex = previewImages.findIndex((img) => img === over.id);
 
+    // Reordena visualizações
     if (oldIndex !== -1 && newIndex !== -1) {
-      const newItems = arrayMove(previewImages, oldIndex, newIndex);
-      setPreviewImages(newItems);
+      const reorderedPreviews = arrayMove(previewImages, oldIndex, newIndex);
+      const reorderedFiles = arrayMove(formData.imagens, oldIndex, newIndex);
+
+      setPreviewImages(reorderedPreviews);
       setFormData((prev) => ({
         ...prev,
-        imagens: newItems,
+        imagens: reorderedFiles,
       }));
     }
   };
@@ -367,45 +321,22 @@ const PropertyForm = ({ existingProperty, onSave }) => {
               onDragEnd={handleDragEnd}
             >
               <SortableContext
-                items={previewImages.map((img) => img.id)}
+                items={previewImages}
                 strategy={verticalListSortingStrategy}
               >
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                   {previewImages.map((img) => (
                     <SortableItem
-                      key={img.id}
-                      id={img.id}
-                      src={img.src}
+                      key={img}
+                      id={img}
+                      src={img}
                       onRemove={handleRemoveImage}
                     />
                   ))}
                 </div>
               </SortableContext>
             </DndContext>
-
-            {/* <DndContext
-                sensors={sensors}
-                collisionDetection={closestCenter}
-                onDragEnd={handleDragEnd}
-              >
-                <SortableContext
-                  items={previewImages}
-                  strategy={verticalListSortingStrategy}
-                >
-                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                    {previewImages.map((img) => (
-                      <SortableItem
-                        key={img}
-                        id={img}
-                        src={img}
-                        onRemove={handleRemoveImage}
-                      />
-                    ))}
-                  </div>
-                </SortableContext>
-              </DndContext> */}
           </div>
-
           {/* Informações Básicas */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="space-y-2">
@@ -485,7 +416,6 @@ const PropertyForm = ({ existingProperty, onSave }) => {
                 placeholder="Número de vagas de estacionamento"
               />
             </div>
-            {/* /    {/* Valores financeiros */}
             <InputGroupCustom>
               <Label>Valor de Venda</Label>
               <NumericFormat
@@ -632,23 +562,5 @@ const PropertyForm = ({ existingProperty, onSave }) => {
     </Card>
   );
 };
-
-const InputGroupCustom = styled.div`
-  margin-bottom: 20px;
-`;
-
-const LabelCustom = styled.label`
-  display: block;
-  margin-bottom: 10px;
-  font-weight: bold;
-  color: #333;
-`;
-const SelectCustom = styled.select`
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 16px;
-`;
 
 export default PropertyForm;

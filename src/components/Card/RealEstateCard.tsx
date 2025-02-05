@@ -1,6 +1,11 @@
 import React from "react";
-import { MapPin, Bed, Bath, Car, Maximize2, Star } from "lucide-react";
+import Head from "next/head";
 import { motion } from "framer-motion";
+import { MapPin, Bed, Bath, Car, Maximize2, Star } from "lucide-react";
+import PropertyImageCarousel from "@/components/ui/PropertyImageCarousel";
+import { useRouter } from "next/router";
+import { useLoading } from "@/context/LoadingContext";
+import { ShareButtonCard } from "../ShareButton/ShareButtonCard";
 
 interface RealEstateCardProps {
   id: string;
@@ -37,6 +42,24 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
   descricao,
   disponibilidade,
 }) => {
+  const router = useRouter();
+  const cloudinaryBaseUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/`;
+
+  const media = [
+    ...(imagens || []).map((img) => ({
+      src: img.startsWith("http") ? img : `${cloudinaryBaseUrl}${img}`,
+      type: "image" as "image",
+    })),
+  ];
+
+  const metaTitle = titulo || "Imóvel disponível | MW Consultoria Imobiliária";
+  const metaDescription =
+    descricao?.substring(0, 150) ||
+    "Confira este imóvel disponível na MW Consultoria Imobiliária.";
+  const metaImage =
+    media[0]?.src || "https://via.placeholder.com/1200x630?text=Imagem+não+disponível";
+  const metaUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}`;
+
   const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -57,6 +80,16 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
     }
   };
 
+  const { setIsLoading } = useLoading();
+
+  const handleClick = () => {
+    setIsLoading(true);
+    router.push(`/imoveis/${id}`).then(() => {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    });
+  };
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -133,7 +166,8 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
         </div>
 
         <div className="flex gap-2 pt-4">
-          <button className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90">
+          <button onClick={handleClick} 
+          className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/200">
             Ver detalhes
           </button>
           <button

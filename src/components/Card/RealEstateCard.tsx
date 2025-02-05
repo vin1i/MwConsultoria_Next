@@ -1,11 +1,6 @@
 import React from "react";
-import Head from "next/head";
-import { motion } from "framer-motion";
 import { MapPin, Bed, Bath, Car, Maximize2, Star } from "lucide-react";
-import PropertyImageCarousel from "@/components/ui/PropertyImageCarousel";
-import { useRouter } from "next/router";
-import { useLoading } from "@/context/LoadingContext";
-import { ShareButtonCard } from "../ShareButton/ShareButtonCard";
+import { motion } from "framer-motion";
 
 interface RealEstateCardProps {
   id: string;
@@ -42,24 +37,6 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
   descricao,
   disponibilidade,
 }) => {
-  const router = useRouter();
-  const cloudinaryBaseUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/`;
-
-  const media = [
-    ...(imagens || []).map((img) => ({
-      src: img.startsWith("http") ? img : `${cloudinaryBaseUrl}${img}`,
-      type: "image" as "image",
-    })),
-  ];
-
-  const metaTitle = titulo || "Imóvel disponível | MW Consultoria Imobiliária";
-  const metaDescription =
-    descricao?.substring(0, 150) ||
-    "Confira este imóvel disponível na MW Consultoria Imobiliária.";
-  const metaImage =
-    media[0]?.src || "https://via.placeholder.com/1200x630?text=Imagem+não+disponível";
-  const metaUrl = `https://mwconsultoriaimobiliaria.com.br/imoveis/${id}?cachebuster=${Date.now()}`;
-
   const formatCurrency = (value: number): string => {
     return new Intl.NumberFormat("pt-BR", {
       style: "currency",
@@ -80,70 +57,42 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
     }
   };
 
-  const { setIsLoading } = useLoading();
-
-  const handleClick = () => {
-    setIsLoading(true);
-    router.push(`/imoveis/${id}`).then(() => {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
-    });
-  };
-
   return (
-    <>
-      <Head>
-       {/* Meta Tags Gerais */}
-  <title>{metaTitle}</title>
-  <meta name="description" content={metaDescription} />
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="group relative w-full max-w-[400px] h-full flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
+    >
+      <div className="relative aspect-[4/3] w-full">
+        {imagens && imagens.length > 0 && (
+          <img
+            src={imagens[0]}
+            alt={titulo}
+            className="h-full w-full object-cover"
+          />
+        )}
+        <span
+          className={`absolute left-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${getStatusColor(
+            disponibilidade
+          )}`}
+        >
+          {disponibilidade}
+        </span>
+      </div>
 
-  {/* Open Graph Meta Tags (Facebook, WhatsApp, LinkedIn) */}
-  <meta property="og:type" content="website" />
-  <meta property="og:title" content={metaTitle} />
-  <meta property="og:description" content={metaDescription} />
-  <meta property="og:image" content={metaImage} />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:url" content={metaUrl} />
-  <meta property="og:locale" content="pt_BR" />
-
-  {/* Twitter Meta Tags */}
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={metaTitle} />
-  <meta name="twitter:description" content={metaDescription} />
-  <meta name="twitter:image" content={metaImage} />
-  <meta name="twitter:url" content={metaUrl} />
-  <meta name="twitter:site" content="@mwconsultoriaimobiliaria" />
-
-  
-</Head>
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="group relative w-full max-w-[400px] overflow-hidden rounded-lg bg-RealEstateCard shadow-lg transition-all duration-300 hover:shadow-xl"
-      >
-        <div className="relative">
-          <PropertyImageCarousel media={media} />
-          <span
-            className={`absolute left-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${getStatusColor(
-              disponibilidade
-            )}`}
-          >
-            {disponibilidade}
-          </span>
+      <div className="flex h-full flex-col p-4">
+        <div className="mb-4">
+          <h3 className="text-xl font-semibold text-primary line-clamp-2">
+            {titulo}
+          </h3>
+          <div className="mt-2 flex items-start text-sm text-gray-600">
+            <MapPin className="mr-2 h-4 w-4 shrink-0 text-primary" />
+            <span className="line-clamp-2">{endereco}</span>
+          </div>
         </div>
 
-        <div className="space-y-4 py-4 sm:px-2 px-4 rounded-lg bg-white flex flex-col min-h-[400px]">
-          <div className="flex flex-col flex-grow">
-            <h3 className="text-xl font-semibold text-primary">{titulo}</h3>
-            <div className="mt-2 flex items-start text-sm text-gray-600">
-              <MapPin className="mr-2 h-4 w-4 text-primary" />
-              {endereco}
-            </div>
-
-          <div className="mt-4 grid grid-cols-2 gap-x-0 gap-y-2 text-base 2xl:text-sm md:text-xs sm:grid-cols-2">
+        <div className="mt-4 grid grid-cols-2 gap-x-0 gap-y-2 text-base 2xl:text-sm md:text-xs sm:grid-cols-2">
   <div className="flex items-center gap-2">
     <Maximize2 className="h-4 w-4 text-primary" />
     <span>{metrosQuadrados} m²</span>
@@ -166,44 +115,48 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
   </div>
 </div>
 
+        <div className="mt-auto space-y-2 border-t pt-4">
+          <div className="flex items-center justify-between">
+            <span className="text-sm text-gray-600">Valor</span>
+            <span className="text-lg font-semibold text-primary">
+              {formatCurrency(valorVenda)}
+            </span>
           </div>
-
-          <div className="space-y-2 border-t pt-4 flex-grow">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Valor</span>
-              <span className="text-lg font-semibold text-primary">
-                {formatCurrency(valorVenda)}
-              </span>
-            </div>
-            <div className="flex items-center justify-between text-sm text-gray-600">
-              <span>Condomínio</span>
-              <span>{formatCurrency(vlCondominio)}</span>
-            </div>
-            <div className="flex items-center justify-between text-sm text-gray-600">
-              <span>IPTU</span>
-              <span>{formatCurrency(vlIptu)}</span>
-            </div>
+          <div className="flex items-center justify-between text-sm text-gray-600">
+            <span>Condomínio</span>
+            <span>{formatCurrency(vlCondominio)}</span>
           </div>
-
-          <div className="flex gap-2">
-            <button
-              onClick={handleClick}
-              className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary/90"
-            >
-              Ver mais
-            </button>
-            <ShareButtonCard
-              id={id}
-              title={titulo} 
-              description={descricao} 
-              image={imagens[0]}
-              
- 
-/>
+          <div className="flex items-center justify-between text-sm text-gray-600">
+            <span>IPTU</span>
+            <span>{formatCurrency(vlIptu)}</span>
           </div>
         </div>
-      </motion.div>
-    </>
+
+        <div className="flex gap-2 pt-4">
+          <button className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/90">
+            Ver detalhes
+          </button>
+          <button
+            className="rounded-lg border border-gray-200 p-2.5 text-gray-600 transition-colors hover:bg-gray-50"
+            aria-label="Compartilhar"
+          >
+            <svg
+              className="h-5 w-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </motion.div>
   );
 };
 

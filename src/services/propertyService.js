@@ -56,7 +56,7 @@ export const getImoveis = async () => {
         endereco: data.endereco || "Não informado",
         valorVenda: data.valorVenda || 0,
         valorLocacao: data.valorLocacao || 0,
-        condominio: data.vlCondominio || 0,
+        vlCondominio: data.vlCondominio || 0,
         vlIptu: data.vlIptu || 0,
         quartos: data.quartos || 0,
         banheiros: data.banheiros || 0,

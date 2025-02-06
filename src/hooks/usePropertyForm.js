@@ -42,7 +42,7 @@ const usePropertyForm = (existingProperty, onSave) => {
       const formattedImages = existingProperty.imagens.map((img) => {
         return img.replace(
           /(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)+/,
-          "https://res.cloudinary.com/dsioklbbq/image/upload/"
+          "https://res.cloudinary.com/dsioklbbq/image/upload/f_auto,q_auto/"
         );
       });
 
@@ -81,24 +81,24 @@ const usePropertyForm = (existingProperty, onSave) => {
       ...prev,
       [field]: value,
     }));
-  }; const handleFileChange = (e) => {
-    const files = Array.from(e.target.files).filter((file) =>
-      file.type.startsWith("image/") // Garante que são apenas arquivos de imagem
+  };
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files).filter(
+      (file) => file.type.startsWith("image/") // Garante que são apenas arquivos de imagem
     );
-  
+
     const newPreviews = files.map((file) => ({
       id: `${file.name}-${Date.now()}`, // ID único para cada imagem
       src: URL.createObjectURL(file), // Gera URL para pré-visualização
       file, // Mantém o arquivo para upload posterior
     }));
-  
+
     setPreviewImages((prev) => [...prev, ...newPreviews.map((img) => img.src)]);
     setFormData((prev) => ({
       ...prev,
       imagens: [...prev.imagens, ...newPreviews], // Adiciona ao estado de imagens
     }));
   };
-  
 
   const handleRemoveImage = (imageToDelete) => {
     setPreviewImages((prev) => prev.filter((img) => img !== imageToDelete));
@@ -136,28 +136,28 @@ const usePropertyForm = (existingProperty, onSave) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       // Filtra apenas os arquivos que são instâncias de File
       const newImages = formData.imagens.filter((img) => img instanceof File);
-  
+
       // Faz upload dos arquivos
       const uploadedImages = await uploadImagesToCloudinary(newImages);
-  
+
       // Combina as URLs existentes com as novas
       const allImages = [
         ...formData.imagens.filter((img) => typeof img === "string"),
         ...uploadedImages,
       ];
-  
+
       // Atualiza as pré-visualizações para refletir os uploads bem-sucedidos
       setPreviewImages(allImages);
-  
+
       const payload = {
         ...formData,
         imagens: allImages, // Atualiza o payload com todas as imagens
       };
-  
+
       await onSave(payload);
       toast.success("Imóvel salvo com sucesso!");
     } catch (error) {
@@ -165,7 +165,6 @@ const usePropertyForm = (existingProperty, onSave) => {
       toast.error("Erro ao salvar as imagens. Tente novamente.");
     }
   };
-  
 
   const handleCancel = () => {
     setFormData({

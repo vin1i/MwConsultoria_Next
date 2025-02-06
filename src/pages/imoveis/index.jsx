@@ -9,7 +9,7 @@ import filtersOptions from "@/data/FiltersOptions";
 import Head from "next/head";
 
 const cloudinaryCloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-const cloudinaryBaseUrl = `https://res.cloudinary.com/${cloudinaryCloudName}`;
+const cloudinaryBaseUrl = `https://res.cloudinary.com/${cloudinaryCloudName}/image/upload/f_auto,q_auto/`;
 const ImoveisPage = () => {
   const [imoveis, setImoveis] = useState([]);
   const [filters, setFilters] = useState({

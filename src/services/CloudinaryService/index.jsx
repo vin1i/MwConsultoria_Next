@@ -25,7 +25,11 @@ export const uploadImagesToCloudinary = async (files) => {
       const data = await response.json();
 
       // marca d'água
-      return applyWatermark(data.secure_url);
+      const finalUrl = applyWatermark(data.secure_url);
+      console.log("URL antes do watermark:", data.secure_url);
+      console.log("URL final com watermark e otimização:", finalUrl);
+
+      return finalUrl;
     } catch (error) {
       console.error("Erro ao fazer upload para o Cloudinary:", error);
       throw error;
@@ -35,11 +39,26 @@ export const uploadImagesToCloudinary = async (files) => {
   return await Promise.all(uploadPromises);
 };
 
-const applyWatermark = (url) => {
-  // redimensionamento das imagens e marca d'água
-  const transformation = `c_scale,w_800,h_600,f_auto/l_opreb9q06mnwbxsqkkey,g_north_east,x_20,y_20,w_150`;
-  const parts = url.split("/upload/");
-  return `${parts[0]}/upload/${transformation}/${parts[1]}`;
+const applyWatermark = (originalUrl) => {
+  console.log("applyWatermark foi chamado para URL:", originalUrl);
+
+  /**
+   * Transformações unificadas em um só passo:
+   *  - c_scale,w_800    => Redimensiona para largura máxima de 800px
+   *  - c_scale,h_600    => Redimensiona para altura máxima de 600px
+   *  - q_auto,f_auto     => Qualidade e formato automáticos
+   *  - l_opreb9q06mnwbxsqkkey => Layer (l_) da sua marca d’água (public_id)
+   *  - g_north_east,x_20,y_20,w_150 => Posição (Norte-Leste), offsets e largura da marca
+   */
+  const transformation = `c_scale,w_800,h_600,q_auto,f_auto,l_opreb9q06mnwbxsqkkey,g_north_east,x_20,y_20,w_150`;
+
+  // Separa a URL em duas partes: antes e depois de '/upload/'
+  const [beforeUpload, afterUpload] = originalUrl.split("/upload/");
+
+  // Reconstrói a URL com todas as transformações unificadas
+  const finalUrl = `${beforeUpload}/upload/${transformation}/${afterUpload}`;
+
+  console.log("URL final (marc d'água + otimização):", finalUrl);
+
+  return finalUrl;
 };
-
-

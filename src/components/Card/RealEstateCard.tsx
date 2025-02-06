@@ -91,28 +91,23 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
     });
   };
   return (
+    <>
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       className="group relative w-full max-w-[400px] h-full flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
     >
-      <div className="relative aspect-[4/3] w-full">
-        {imagens && imagens.length > 0 && (
-          <img
-            src={imagens[0]}
-            alt={titulo}
-            className="h-full w-full object-cover"
-          />
-        )}
-        <span
-          className={`absolute left-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${getStatusColor(
-            disponibilidade
-          )}`}
-        >
-          {disponibilidade}
-        </span>
-      </div>
+        <div className="relative">
+          <PropertyImageCarousel media={media} />
+          <span
+            className={`absolute left-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${getStatusColor(
+              disponibilidade
+            )}`}
+          >
+            {disponibilidade}
+          </span>
+        </div>
 
       <div className="flex h-full flex-col p-4">
         <div className="mb-4">
@@ -170,27 +165,16 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
           className="flex-1 rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary/200">
             Ver detalhes
           </button>
-          <button
-            className="rounded-lg border border-gray-200 p-2.5 text-gray-600 transition-colors hover:bg-gray-50"
-            aria-label="Compartilhar"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.367 2.684 3 3 0 00-5.367-2.684z"
+          <ShareButtonCard
+              id={id}
+              title={titulo} 
+              description={descricao} 
+              image={imagens[0]}
               />
-            </svg>
-          </button>
         </div>
       </div>
     </motion.div>
+    </>
   );
 };
 

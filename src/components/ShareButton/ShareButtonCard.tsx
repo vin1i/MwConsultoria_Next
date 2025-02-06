@@ -71,7 +71,7 @@ export const ShareButtonCard = ({ id, title, description, image }: ShareButtonPr
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="flex items-center gap-2 hover:bg-[#9C192B] hover:text-white transition-colors duration-200 rounded-[25px]"
+          className="rounded-full border  border-gray-200 p-2.5 text-gray-600 transition-colors hover:text-white hover:bg-[#9C192B]"
         >
           <Share2 className="w-4 h-4" />
     

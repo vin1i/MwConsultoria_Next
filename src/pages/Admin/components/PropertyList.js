@@ -5,14 +5,14 @@ import styled from "styled-components";
 import Swal from "sweetalert2";
 
 const generateCloudinaryURL = (imageId) => {
-  // Verifica se a URL já está completa
   if (imageId.startsWith("http") && imageId.includes("res.cloudinary.com")) {
     return imageId;
   }
 
   const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-  return `https://res.cloudinary.com/${cloudName}/image/upload/${imageId}`;
+  return `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto/${imageId}`;
 };
+
 const PropertyList = ({ onEdit, onDelete }) => {
   const [properties, setProperties] = useState([]);
   const { isLoading, setIsLoading } = useLoading();

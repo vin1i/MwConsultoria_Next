@@ -33,8 +33,8 @@ const ImobiDetails = ({ initialProperty }) => {
   const [isLoading, setIsLoading] = useState(!initialProperty);
   useEffect(() => {
     const fetchProperty = async () => {
-      if (!id) return;  // Se o id ainda não estiver disponível, não faça a requisição.
-  
+      if (!id) return; // Se o id ainda não estiver disponível, não faça a requisição.
+
       setIsLoading(true);
       try {
         const propertyData = await getImovelById(id);
@@ -55,10 +55,9 @@ const ImobiDetails = ({ initialProperty }) => {
         setIsLoading(false);
       }
     };
-  
+
     fetchProperty();
   }, [id]);
-  
 
   if (isLoading) {
     return (
@@ -87,7 +86,7 @@ const ImobiDetails = ({ initialProperty }) => {
     ? property.imagens.map((img) => {
         const imageUrl = img.startsWith("http")
           ? img
-          : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${img}`;
+          : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/${img}`;
         return {
           src: imageUrl,
           type: "image",
@@ -149,7 +148,7 @@ const ImobiDetails = ({ initialProperty }) => {
         <Address>{property.endereco || "Endereço não informado"}</Address>
         <Features>
           <p>
-            <Maximize2/> {property.metrosQuadrados || 0} m²
+            <Maximize2 /> {property.metrosQuadrados || 0} m²
           </p>
           <p>
             <Bed /> {property.quartos || 0} quartos
@@ -223,14 +222,14 @@ const ImobiDetails = ({ initialProperty }) => {
           {property.descricao || "Descrição não disponível."}
         </Description>
         <div
-         style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between", 
-          width: "100%"  
-        }}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
         >
-          <WhatsAppButton 
+          <WhatsAppButton
             href={`https://api.whatsapp.com/send?phone=5511973738808&text=Ol%C3%A1,%20gostaria%20de%20saber%20mais%20sobre%20o%20im%C3%B3vel%20${
               property.titulo || property.tipo
             }%20em%20${property.endereco}.`}
@@ -239,17 +238,12 @@ const ImobiDetails = ({ initialProperty }) => {
           >
             Fale conosco!
             <FaWhatsapp />
-          </WhatsAppButton >
-          <ShareButton
-          id={id}
-            image={metaImage}
-        />
-         
+          </WhatsAppButton>
+          <ShareButton id={id} image={metaImage} />
         </div>
       </ContentContainer>
     </Wrapper>
   );
 };
-
 
 export default ImobiDetails;

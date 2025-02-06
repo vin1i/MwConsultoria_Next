@@ -13,15 +13,14 @@ const propertyCollection = collection(db, "properties");
 
 export const addProperty = async (propertyData) => {
   try {
- 
-    const imagesToUpload = propertyData.imagens.filter((img) => img instanceof File);
+    const imagesToUpload = propertyData.imagens.filter(
+      (img) => img instanceof File
+    );
 
-   
     const uploadedImageUrls = imagesToUpload.length
       ? await uploadImagesToCloudinary(imagesToUpload)
       : [];
 
-   
     const allImageUrls = [
       ...propertyData.imagens.filter((img) => typeof img === "string"),
       ...uploadedImageUrls,
@@ -29,7 +28,7 @@ export const addProperty = async (propertyData) => {
 
     const newPropertyData = {
       ...propertyData,
-      imagens: allImageUrls, 
+      imagens: allImageUrls,
       vlCondominio: propertyData.vlCondominio || 0,
       vlIptu: propertyData.vlIptu || 0,
       valorVenda: propertyData.valorVenda || 0,
@@ -111,7 +110,7 @@ const normalizeImageUrls = (images) => {
   return images.map((img) =>
     img.replace(
       /(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)+/,
-      "https://res.cloudinary.com/dsioklbbq/image/upload/"
+      "https://res.cloudinary.com/dsioklbbq/image/upload/f_auto,q_auto/"
     )
   );
 };

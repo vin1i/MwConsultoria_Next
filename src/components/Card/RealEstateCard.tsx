@@ -43,7 +43,7 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
   disponibilidade,
 }) => {
   const router = useRouter();
-  const cloudinaryBaseUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/`;
+  const cloudinaryBaseUrl = `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/`;
 
   const media = [
     ...(imagens || []).map((img) => ({

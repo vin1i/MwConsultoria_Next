@@ -50,7 +50,7 @@ const applyWatermark = (originalUrl) => {
    *  - l_opreb9q06mnwbxsqkkey => Layer (l_) da sua marca d’água (public_id)
    *  - g_north_east,x_20,y_20,w_150 => Posição (Norte-Leste), offsets e largura da marca
    */
-  const transformation = `c_scale,w_800,h_600,q_auto,f_auto,l_opreb9q06mnwbxsqkkey,g_north_east,x_20,y_20,w_150`;
+  const transformation = `c_scale,w_800,h_600,q_auto,f_auto,g_north_east`;
 
   // Separa a URL em duas partes: antes e depois de '/upload/'
   const [beforeUpload, afterUpload] = originalUrl.split("/upload/");
@@ -58,7 +58,7 @@ const applyWatermark = (originalUrl) => {
   // Reconstrói a URL com todas as transformações unificadas
   const finalUrl = `${beforeUpload}/upload/${transformation}/${afterUpload}`;
 
-  console.log("URL final (marc d'água + otimização):", finalUrl);
+  console.log("URL final (marc d'água + otimização ):", finalUrl);
 
   return finalUrl;
 };

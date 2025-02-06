@@ -128,7 +128,7 @@ const PropertyForm = ({ existingProperty, onSave }) => {
       const formattedImages = existingProperty.imagens.map((img) => {
         return img.replace(
           /(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)+/,
-          "https://res.cloudinary.com/dsioklbbq/image/upload/f_auto,q_auto/"
+          `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/`
         );
       });
 
@@ -303,7 +303,7 @@ const PropertyForm = ({ existingProperty, onSave }) => {
                     <span className="font-semibold">Clique para carregar</span>
                   </p>
                   <p className="text-xs text-gray-500">
-                    PNG, JPG, GIF até 10MB
+                    PNG, JPG
                   </p>
                 </div>
                 <input

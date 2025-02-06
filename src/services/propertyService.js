@@ -110,7 +110,7 @@ const normalizeImageUrls = (images) => {
   return images.map((img) =>
     img.replace(
       /(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)+/,
-      "https://res.cloudinary.com/dsioklbbq/image/upload/f_auto,q_auto/"
+      `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/`
     )
   );
 };

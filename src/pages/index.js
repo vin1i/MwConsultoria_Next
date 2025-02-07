@@ -1,9 +1,8 @@
 import Head from "next/head";
-import Header from "@/components/Header";
 import Banner from "@/components/Banner";
 import About from "@/components/About";
 import Servicos from "@/components/Servicos/Servicos";
-import Footer from "@/components/Footer";
+
 
 export default function Home() {
   return (

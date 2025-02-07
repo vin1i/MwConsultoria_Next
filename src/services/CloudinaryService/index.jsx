@@ -47,10 +47,11 @@ const applyWatermark = (originalUrl) => {
    *  - c_scale,w_800    => Redimensiona para largura máxima de 800px
    *  - c_scale,h_600    => Redimensiona para altura máxima de 600px
    *  - q_auto,f_auto     => Qualidade e formato automáticos
-   *  - l_opreb9q06mnwbxsqkkey => Layer (l_) da sua marca d’água (public_id)
+   *  - l_rlewvaht7dzwcx0ovkeq => Layer (l_) da sua marca d’água (public_id)
    *  - g_north_east,x_20,y_20,w_150 => Posição (Norte-Leste), offsets e largura da marca
    */
-  const transformation = `c_scale,w_800,h_600,q_auto,f_auto,g_north_east`;
+  const transformation = `c_scale,w_800,h_600,f_auto/l_rlewvaht7dzwcx0ovkeq,g_north_east,x_20,y_20,w_150`;
+  
 
   // Separa a URL em duas partes: antes e depois de '/upload/'
   const [beforeUpload, afterUpload] = originalUrl.split("/upload/");

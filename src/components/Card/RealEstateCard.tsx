@@ -30,6 +30,7 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
   id,
   endereco,
   valorVenda,
+  valorLocacao,
   vlCondominio,
   vlIptu,
   imagens,
@@ -99,6 +100,8 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
       className="group relative w-full max-w-[400px] h-full flex flex-col overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:shadow-xl"
     >
         <div className="relative">
+          {/* Faz a imagem ser um link para o imóvel */}
+          <a href="#" className="absolute inset-0 z-20" onClick={handleClick} ></a>
           <PropertyImageCarousel media={media} />
           <span
             className={`absolute left-4 top-4 z-30 rounded-full px-3 py-1 text-xs font-semibold text-white ${getStatusColor(
@@ -146,8 +149,13 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
         <div className="mt-auto space-y-2 border-t pt-4">
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Valor</span>
+            
             <span className="text-lg font-semibold text-primary">
-              {formatCurrency(valorVenda)}
+            {/* Caso o valor de venda seja 0, o valor de locação se torna o valor de venda. */}
+              { valorVenda > 0 && formatCurrency(valorVenda) }
+              { valorLocacao > 0 && valorLocacao > 0  }
+              { valorLocacao > 0 && formatCurrency(valorLocacao) }
+            {/* Caso o valor de venda seja 0, o valor de locação se torna o valor de venda. */}
             </span>
           </div>
           <div className="flex items-center justify-between text-sm text-gray-600">

@@ -3,6 +3,7 @@
   export const FiltersContainer = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
     gap: 1rem;
     padding: 1rem 1rem; 
     margin: 1rem -1rem;

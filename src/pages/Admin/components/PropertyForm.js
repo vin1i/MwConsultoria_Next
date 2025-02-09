@@ -128,7 +128,7 @@ const PropertyForm = ({ existingProperty, onSave }) => {
       const formattedImages = existingProperty.imagens.map((img) => {
         return img.replace(
           /(https:\/\/res\.cloudinary\.com\/[^/]+\/image\/upload\/)+/,
-          `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/`
+          "https://res.cloudinary.com/dozyxximh/image/upload/f_auto,q_auto/"
         );
       });
 

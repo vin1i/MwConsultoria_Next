@@ -112,43 +112,58 @@ const RealEstateCard: React.FC<RealEstateCardProps> = ({
       </div>
 
       <div className="flex h-full flex-col p-4">
-        <div className="mb-4">
-          <h3 className="text-xl font-semibold text-primary line-clamp-2">
-            {titulo}
-          </h3>
-          <div className="mt-2 flex items-start text-sm text-gray-600">
-            <MapPin className="mr-2 h-4 w-4 shrink-0 text-primary" />
-            <span className="line-clamp-2">{endereco}</span>
-          </div>
-        </div>
+      <div className="mb-4">
+      <h3 className="text-xl font-semibold text-primary line-clamp-2 min-h-[3rem] overflow-hidden text-ellipsis">
+  {titulo}
+</h3>
 
-        <div className="mt-4 grid grid-cols-2 gap-x-2 gap-y-2 text-sm">
-          <div className="flex items-center gap-2">
-            <Maximize2 className="h-4 w-4 text-primary" />
-            <span>{metrosQuadrados} m²</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Bed className="h-4 w-4 text-primary" />
-            <span>{quartos} Quartos</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Star className="h-4 w-4 text-primary" />
-            <span>{suites} Suítes</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Bath className="h-4 w-4 text-primary" />
-            <span>{banheiros} Banheiros</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <Car className="h-4 w-4 text-primary" />
-            <span>{vagas} Vagas</span>
-          </div>
-        </div>
+  <div className="mt-2 flex items-start text-sm text-gray-600 min-h-[2.5rem]">
+    <MapPin className="mr-2 h-4 w-4 shrink-0 text-primary" />
+    <span className="line-clamp-2">{endereco}</span>
+  </div>
+</div>
+
+{/* Grid dos ícones ajustado para manter o alinhamento */}
+<div className="mt-4 grid grid-cols-2 auto-rows-min gap-y-3 text-sm">
+  <div className="flex items-center">
+    <div className="w-7 flex-shrink-0 flex items-center justify-center">
+      <Maximize2 className="h-4 w-4 text-primary" />
+    </div>
+    <span className="whitespace-nowrap">{metrosQuadrados} m²</span>
+  </div>
+  <div className="flex items-center">
+    <div className="w-7 flex-shrink-0 flex items-center justify-center">
+      <Bed className="h-4 w-4 text-primary" />
+    </div>
+    <span className="whitespace-nowrap">{quartos} Quartos</span>
+  </div>
+  <div className="flex items-center">
+    <div className="w-7 flex-shrink-0 flex items-center justify-center">
+      <Star className="h-4 w-4 text-primary" />
+    </div>
+    <span className="whitespace-nowrap">{suites} Suítes</span>
+  </div>
+  <div className="flex items-center">
+    <div className="w-7 flex-shrink-0 flex items-center justify-center">
+      <Bath className="h-4 w-4 text-primary" />
+    </div>
+    <span className="whitespace-nowrap">{banheiros} Banheiros</span>
+  </div>
+  <div className="flex items-center">
+    <div className="w-7 flex-shrink-0 flex items-center justify-center">
+      <Car className="h-4 w-4 text-primary" />
+    </div>
+    <span className="whitespace-nowrap">{vagas} Vagas</span>
+  </div>
+</div>
+
+
+
 
         <div className="mt-auto space-y-2 border-t pt-4">
           <div className="flex items-center justify-between">
             <span className="text-sm text-gray-600">Valor</span>
-            <span className="text-lg font-semibold text-primary">
+            <span className="text-lg lg:text-[17px] font-semibold text-primary">
               {valorVenda > 0 && formatCurrency(valorVenda)}
               {valorLocacao > 0 && valorVenda === 0 && formatCurrency(valorLocacao)}
             </span>

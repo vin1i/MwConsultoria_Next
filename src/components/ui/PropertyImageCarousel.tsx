@@ -1,6 +1,7 @@
 import React from 'react';
 import useEmblaCarousel from 'embla-carousel-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import Image from 'next/image';
 
 interface PropertyImageCarouselProps {
   media: {
@@ -47,7 +48,7 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
 
   if (!media.length) {
     return (
-      <div className="relative h-[240px] w-full bg-gray-100">
+      <div className="relative aspect-[4/3] w-full bg-gray-100">
         <div className="absolute inset-0 flex items-center justify-center">
           <span className="text-sm text-gray-400">Sem imagens disponíveis</span>
         </div>
@@ -56,19 +57,19 @@ const PropertyImageCarousel = ({ media }: PropertyImageCarouselProps) => {
   }
 
   const visibleDots = Math.min(DOTS_PER_PAGE, media.length - dotStartIndex);
-
   return (
-    <div className="relative h-[240px] w-full overflow-hidden rounded-sm">
+    <div className="relative w-full aspect-[4/3] overflow-hidden">
       <div className="absolute inset-0 z-10 overflow-hidden" ref={emblaRef}>
         <div className="flex h-full touch-pan-y">
           {media.map((item, index) => (
-            <div key={index} className="relative h-full min-w-full flex-[0_0_100%]">
-              <div
-                className="relative h-full min-w-full flex-[0_0_100%] bg-cover"
-                style={{
-                  backgroundImage: `url(${item.src})`,
-                  backgroundSize: 'cover',
-                }}
+            <div key={index} className="relative min-w-full flex-[0_0_100%] h-full">
+              <Image
+                src={item.src}
+                alt="Imagem do imóvel"
+                layout="fill"
+                objectFit="cover"
+                className="rounded-t-xl"
+                priority={index === 0}
               />
             </div>
           ))}

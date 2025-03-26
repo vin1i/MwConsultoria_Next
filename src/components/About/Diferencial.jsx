@@ -48,7 +48,7 @@ const Diferencial = () => {
             experiência tranquila e segura. Confie em nós para fazer do seu
             sonho, uma realidade.
           </p>
-          <Logo src="/images/MarisaWebberLogo2.png" alt="Logo da MW Consultoria" />
+          {/* <Logo src="/images/MarisaWebberLogo2.png" alt="Logo da MW Consultoria" /> */}
         </Text>
       </TextContainer>
     </Container>

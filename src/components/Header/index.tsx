@@ -44,7 +44,7 @@ const Header = () => {
                 <li key={item.label}>
                   <Link
                     href={item.href}
-                    className="whitespace-nowrap text-xs lg:text-sm font-medium text-gray-700 hover:text-primary transition-colors"
+                    className="whitespace-nowrap text-xs lg:text-[16px] font-medium text-gray-700 hover:text-primary transition-colors"
                   >
                     {item.label}
                   </Link>

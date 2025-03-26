@@ -43,7 +43,7 @@ export const Section = styled.div`
   }
 
   .footer-social-logo {
-    width: 120px;
+    width: 180px;
     height: auto;
   }
 
@@ -53,7 +53,7 @@ export const Section = styled.div`
     }
 
     .footer-social-logo {
-      width: 80px;
+      width: 100px;
     }
   }
 `;

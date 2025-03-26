@@ -23,7 +23,7 @@ import {
   FaQrcode,
 } from "react-icons/fa";
 import QRCode from "/public/images/QrCodeMarisaWeber.jpeg"; // Ajuste do caminho
-import LogoKW from "/public/images/LOGOKW_LETREIRO.png"; // Ajuste do caminho
+import LogoMW from "../../../public/images/MarisaWebberLogo.png"; // Ajuste do caminho
 
 const Footer = ({ id }) => {
   const [showQR, setShowQR] = useState(false);
@@ -69,9 +69,9 @@ const Footer = ({ id }) => {
             </a>
           </SocialMedia>
           <div className="footer-logo-container">
-            <span className="footer-logo-text">ASSOCIADA</span>{" "}
+            {/* <span className="footer-logo-text">ASSOCIADA</span>{" "} */}
             <Image
-              src={LogoKW}
+              src={LogoMW}
               alt="Logo no footer"
               className="footer-social-logo"
               width={150}

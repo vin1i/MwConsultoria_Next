@@ -81,7 +81,7 @@ const Footer = ({ id }) => {
         </Section>
 
         <Section>
-          <SectionTitle>Contatos</SectionTitle>
+         
           <LinkList>
             <Link href="/#inicio">
               <span>INÍCIO</span>

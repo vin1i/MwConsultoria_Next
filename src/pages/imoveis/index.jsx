@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo } from "react";
 import { db } from "@/services/firebase/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
 import RealEstateCard from "@/components/Card/RealEstateCard";
-import Pagination from "@/components/Pagination";
+import Pagination from "@/components/Pagination/index";
 import Filters from "@/components/Filters";
 import { useLoading } from "@/context/LoadingContext";
 import filtersOptions from "@/data/FiltersOptions";
